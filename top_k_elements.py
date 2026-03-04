@@ -6,19 +6,19 @@ class Solution:
         
         # 1. Can just run a normal dict count and call it a day
         idx = 0
-        freqIndex = {}
+        nToIndex = {}
         freqs = [0] * len(nums)
 
         for n in nums:
-            if n in freqIndex:
-                freqs[freqIndex[n]] += 1
+            if n in nToIndex:
+                freqs[nToIndex[n]] += 1
             else:
-                freqIndex[n] = idx
-                freqs[freqIndex[n]] = 1
+                nToIndex[n] = idx
+                freqs[nToIndex[n]] = 1
                 idx += 1
 
         freqs = freqs[:idx]
-        print(freqIndex)
+        print(nToIndex)
         print(freqs)
         print(sorted(freqs, reverse=True))
  

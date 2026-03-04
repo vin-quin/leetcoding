@@ -1,30 +1,20 @@
 # https://leetcode.com/problems/top-k-frequent-elements/
 class Solution:
     def topKFrequent(self, nums: list[int], k: int) -> list[int]:
-        # Assign each num to an index, each index points to count in array
-        # Then sort array and slice K results easy
-        
-        # 1. Can just run a normal dict count and call it a day
-        idx = 0
-        nToIndex = {}
-        freqs = [0] * len(nums)
+        freqs = {}
+        # freqs = [0] * len(nums)
 
         for n in nums:
-            if n in nToIndex:
-                freqs[nToIndex[n]] += 1
+            if n in freqs:
+                freqs[n] += 1
             else:
-                nToIndex[n] = idx
-                freqs[nToIndex[n]] = 1
-                idx += 1
+                freqs[n] = 1
 
-        freqs = freqs[:idx]
-        print(nToIndex)
         print(freqs)
-        print(sorted(freqs, reverse=True))
+        elements = sorted(list(freqs.items()), key=lambda a: a[1], reverse=True)
+        print(elements)
  
-        return freqs[:k]
-        # 2. Maxheap
-        # 3. Array indexed by value, each index increments #
+        return [x[0] for x in elements[:k]]
 
 def main():
     s = Solution()

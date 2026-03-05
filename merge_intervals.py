@@ -5,15 +5,16 @@ class Solution:
         # [1, 7] and [3, 5]
         # We know i[0] <= i[1]
 
-        if len(intervals) <= 1: 
+        if len(intervals) <= 0: 
             return []
 
         curr, prev = intervals[0], None
         groups = intervals.copy()
+        i=1
 
-        for i in range(1, len(intervals)):
+        while i < len(groups):
             prev = curr
-            curr = intervals[i]
+            curr = groups[i]
 
             upperBound, lowerBound = [], []
 
@@ -25,14 +26,16 @@ class Solution:
                 lowerBound = curr
 
             if lowerBound[1] >= upperBound[0]: # LB MAX within UB MIN then it must be in that range
-                print(f'{groups=}')
+                print(f'Before: {groups=}')
                 print(f'Overlap: {lowerBound=}, {upperBound=}')
                 groups.pop(i-1)
                 groups[i-1] = [min(lowerBound[0], upperBound[0]), upperBound[1]]
-                print(f'{groups=}')
+                print(f'After: {groups=}')
             else:
                 print(f'No overlap: {lowerBound=}, {upperBound=}')
+                i += 1
 
+            print()
             # Assumes i1 >= i0
             # if i0[0] >= i1[0] and UB check then it is in range
             # if i0[1] <= i1[1] then it is in range

@@ -5,43 +5,50 @@ class Solution:
         if len(intervals) <= 0: 
             return []
 
-        curr, prev = intervals[0], None
+        next, anchor = intervals[0], None
         groups = intervals.copy()
-        i=1
+        i=0
 
-        while  0 < i < len(groups):
-            prev = groups[i-1]
-            curr = groups[i]
+        while  i < len(groups):
+            anchor = groups[i]
+            j = i+1
+            recheck = False
 
-            upperBound, lowerBound = [], []
+            while j < len(groups): # Lookahead from anchor
+                next = groups[j]
 
-            if curr[1] >= prev[1]: # curr is the true upper bound
-                upperBound = curr
-                lowerBound = prev 
-            else: # prev is the true upper bound
-                upperBound = prev
-                lowerBound = curr
+                upperBound, lowerBound = [], []
 
-            if lowerBound[1] >= upperBound[0]: # LB MAX within UB MIN then it must be in that range
-                print(f'Before: {groups=}')
-                print(f'Overlap: {lowerBound=}, {upperBound=}')
-                groups.pop(i-1)
-                groups[i-1] = [min(lowerBound[0], upperBound[0]), upperBound[1]]
-                print(f'After: {groups=}')
-                i = 1
-            else:
-                print(f'No overlap: {lowerBound=}, {upperBound=}')
+                if next[1] >= anchor[1]: # curr is the true upper bound
+                    upperBound = next
+                    lowerBound = anchor 
+                else: # prev is the true upper bound
+                    upperBound = anchor
+                    lowerBound = next
+
+                if lowerBound[1] >= upperBound[0]: # LB MAX within UB MIN then it must be in that range
+                    print(f'Before: {groups=}')
+                    print(f'Overlap: {lowerBound=}, {upperBound=}')
+                    groups[i] = anchor = [min(lowerBound[0], upperBound[0]), upperBound[1]]
+                    groups.pop(j)
+                    print(f'After: {groups=}')
+                    recheck = True
+                else:
+                    print(f'No overlap: {lowerBound=}, {upperBound=}')
+                    # i += 1
+                    j += 1
+
+                print()
+            if recheck:
+                i = 0
+            else: 
                 i += 1
-
-            print()
 
         return groups
 
 def main():
     s = Solution()
     print(s.merge([[2,3],[4,5],[6,7],[8,9],[1,10]]))
-    print()
-    print(s.merge([[1,4],[0,2],[3,5]]))
     print()
 
 

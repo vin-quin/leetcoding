@@ -9,7 +9,7 @@ class Solution:
             return []
 
         curr, prev = intervals[0], None
-        groups = []
+        groups = intervals.copy()
 
         for i in range(1, len(intervals)):
             prev = curr
@@ -25,8 +25,11 @@ class Solution:
                 lowerBound = curr
 
             if lowerBound[1] >= upperBound[0]: # LB MAX within UB MIN then it must be in that range
+                print(f'{groups=}')
                 print(f'Overlap: {lowerBound=}, {upperBound=}')
-                groups.append([min(lowerBound[0], upperBound[0]), upperBound[1]])
+                groups.pop(i-1)
+                groups[i-1] = [min(lowerBound[0], upperBound[0]), upperBound[1]]
+                print(f'{groups=}')
             else:
                 print(f'No overlap: {lowerBound=}, {upperBound=}')
 

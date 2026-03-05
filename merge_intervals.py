@@ -27,18 +27,13 @@ class Solution:
                     lowerBound = next
 
                 if lowerBound[1] >= upperBound[0]: # LB MAX within UB MIN then it must be in that range
-                    print(f'Before: {groups=}')
-                    print(f'Overlap: {lowerBound=}, {upperBound=}')
                     groups[i] = anchor = [min(lowerBound[0], upperBound[0]), upperBound[1]]
                     groups.pop(j)
-                    print(f'After: {groups=}')
                     recheck = True
                 else:
-                    print(f'No overlap: {lowerBound=}, {upperBound=}')
                     # i += 1
                     j += 1
 
-                print()
             if recheck:
                 i = 0
             else: 

@@ -49,11 +49,12 @@ class Solution:
 
 def main():
     s = Solution()
-    print(s.lengthOfLongestSubstring("pwwkew"))
-    print(s.lengthOfLongestSubstring("abcabcbb"))
-    print(s.lengthOfLongestSubstring("bbbb"))
-    print(s.lengthOfLongestSubstring("aab"))
-    print(s.lengthOfLongestSubstring("wsslpluuwekuaxt"))
+    # print(s.lengthOfLongestSubstring("pwwkew"))
+    # print(s.lengthOfLongestSubstring("abcabcbb"))
+    # print(s.lengthOfLongestSubstring("bbbb"))
+    # print(s.lengthOfLongestSubstring("aab"))
+    # print(s.lengthOfLongestSubstring("wsslpluuwekuaxt"))
+    print(s.lengthOfLongestSubstring("ojyseenuxxpohrysqixldpki"))
 
 if __name__ == '__main__':
     main()

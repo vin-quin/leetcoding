@@ -12,43 +12,45 @@ class Solution:
         if s[0] == '0':
             return 0
         
-        strs = [
-            ALPHABET[s[0]],
-        ]
+        strs = []
 
         # if int(s[:2]) <= MAX_N: # Decodeable, else needs to be treated as individual chars
         #     strs.append(ALPHABET[s[:2]])
 
-        print(f'Init: {strs}')
+        count = 1
         prev = s[0]
-        for i in range(0, len(s)):
-            suffix1 = ALPHABET[s[i]]
-            suffix2 = None
+        print(f'Init: {count}')
+        
+        for i in range(1, len(s)):
+            # suffix1 = ALPHABET[s[i]]
+            # suffix2 = None
+            if int(prev + s[i]) <= MAX_N:
+                count += 1 # Must double because each possible string now has 2 new paths
 
-            if int(prev + s[i]) <= MAX_N: # This branches to another possible encoding
-                suffix2 = ALPHABET[prev + s[i]]
+            # if int(prev + s[i]) <= MAX_N: # This branches to another possible encoding
+            #     suffix2 = ALPHABET[prev + s[i]]
 
-            for j in range(len(strs)):
-                orig = strs[j]
+            # for j in range(len(strs)):
+            #     orig = strs[j]
 
-                print(f'Updating str: {orig} with {suffix1}')
-                strs[j] += suffix1
+            #     print(f'Updating str: {orig} with {suffix1}')
+            #     strs[j] += suffix1
 
-                if suffix2:
-                    print(f'New str: {orig} with {suffix2}')
-                    strs.append(orig + suffix2)
+                # if suffix2:
+                #     print(f'New str: {orig} with {suffix2}')
+                #     strs.append(orig + suffix2)
 
             prev = s[i]
 
-        print(f'{strs}')
+        return count
 
 
 def main():
     s = Solution()
-    # print(s.numDecodings("12"))
+    print(s.numDecodings("12"))
     print(s.numDecodings("226"))
-    # print(s.numDecodings("06"))
-    # print(s.numDecodings("11106"))
+    print(s.numDecodings("06"))
+    print(s.numDecodings("11106"))
 
 if __name__ == '__main__':
     main()

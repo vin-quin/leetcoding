@@ -7,10 +7,10 @@ class Solution:
         freqs = {} # Map of freqs for each substr, when a freq for a substr > 1 it needs to be reset
         longest = 0
         for c in s:
-            print(f'LETTER: {c}')
+            # print(f'LETTER: {c}')
             if c not in freqs:
                 freqs[c] = {c: 0}
-                print(f'Starting new subtr: {c}')
+                # print(f'Starting new subtr: {c}')
 
             keyRemovals = []
             for k in freqs: 
@@ -24,22 +24,22 @@ class Solution:
                 if subFreq > 1: # Repeated char
                     # Do longest check and reset
                     chrLength = sum(freqs[k].values())-1 # Sub 1 as we have added a repeating character to the count
-                    print(f'Length Check: {chrLength=}, {freqs[k]}')
+                    # print(f'Length Check: {chrLength=}, {freqs[k]}')
                     if  chrLength > longest:
-                        print(f'New longest is: {chrLength} - {freqs[k]}')
+                        # print(f'New longest is: {chrLength} - {freqs[k]}')
                         longest = chrLength
 
-                    print(f'Resetting substr for {c}')
+                    # print(f'Resetting substr for {c}')
                     freqs[k].clear()
                     freqs[k][c] = 1
             
-            print(f'{freqs=}')
+            # print(f'{freqs=}')
 
         for k in freqs: # Final pass required for end of string with unterminated substrings
             chrLength = sum(freqs[k].values()) # No Sub 1 as duplicate wouldve been counted in main flow
-            print(f'Final Length Check: {chrLength=}, {freqs[k]}')
+            # print(f'Final Length Check: {chrLength=}, {freqs[k]}')
             if  chrLength > longest:
-                print(f'Final New longest is: {chrLength} - {freqs[k]}')
+                # print(f'Final New longest is: {chrLength} - {freqs[k]}')
                 longest = chrLength
 
         return longest

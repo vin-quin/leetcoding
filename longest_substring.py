@@ -50,7 +50,8 @@ def main():
     # print(s.lengthOfLongestSubstring("pwwkew"))
     # print(s.lengthOfLongestSubstring("abcabcbb"))
     # print(s.lengthOfLongestSubstring("bbbb"))
-    print(s.lengthOfLongestSubstring("aab"))
+    # print(s.lengthOfLongestSubstring("aab"))
+    print(s.lengthOfLongestSubstring("nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"))
 
 if __name__ == '__main__':
     main()

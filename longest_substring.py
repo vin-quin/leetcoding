@@ -17,36 +17,53 @@ class Solution:
         # When seeing an existing character in the str, we end the current substr for that letter, save, and start again
         # This means we're iterating of n_s entries per char at most, up to ~100 at worst so O(N*M)?
 
-        strs = {}
-        longest = 1
+        freqs = {} # Map of freqs for each substr, when a freq for a substr > 1 it needs to be reset
+        longest = 0
         for c in s:
+            print(f'LETTER: {c}')
+            if c not in freqs:
+                freqs[c] = {c: 0}
+                print(f'Starting new subtr: {c}')
 
-            if c in strs:
-                print(f'{c} in strs, removing...')
-                str = strs.pop(c)
-            else:
-                strs[c] = c
-                print(f'Updating strs: {strs}')
+            keyRemovals = []
+            for k in freqs: 
+                if c not in freqs[k]:
+                    freqs[k][c] = 1
+                else:
+                    freqs[k][c] += 1
 
-            for k in strs:
-                if k == c:
-                    continue 
+                subFreq = freqs[k][c]
 
-                strs[k] += c
-                if len(strs[k]) > longest:
-                    longest = len(strs[k]) # We always append first so dont count repeated char we added
-                    # longest = strs[k]
-                    print(f'New longest is: {strs[k]}')
+                if subFreq > 1: # Repeated char
+                    # Do longest check and reset
+                    chrLength = sum(freqs[k].values())-1 # Sub 1 as we have added a repeating character to the count
+                    print(f'Length Check: {chrLength=}, {freqs[k]}')
+                    if  chrLength > longest:
+                        print(f'New longest is: {chrLength} - {freqs[k]}')
+                        longest = chrLength
 
-            # print(f'Char: {c}')
-            # print(f'Strs: {strs}')
+                    print(f'Resetting substr for {c}')
+                    keyRemovals.append(k)
+            
+            for k in keyRemovals:
+                freqs.pop(k)
+            print(f'{freqs=}')
+
+        for k in freqs: # Final pass required for end of string with unterminated substrings
+            chrLength = sum(freqs[k].values()) # No Sub 1 as duplicate wouldve been counted in main flow
+            print(f'Final Length Check: {chrLength=}, {freqs[k]}')
+            if  chrLength > longest:
+                print(f'Final New longest is: {chrLength} - {freqs[k]}')
+                longest = chrLength
 
         return longest
 
 
 def main():
     s = Solution()
-    print(s.lengthOfLongestSubstring("pwwkew"))
+    # print(s.lengthOfLongestSubstring("pwwkew"))
+    # print(s.lengthOfLongestSubstring("abcabcbb"))
+    print(s.lengthOfLongestSubstring("bbbb"))
 
 if __name__ == '__main__':
     main()

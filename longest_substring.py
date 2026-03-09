@@ -29,9 +29,11 @@ class Solution:
                         # print(f'New longest is: {chrLength} - {freqs[k]}')
                         longest = chrLength
 
-                    # print(f'Resetting substr for {c}')
+                    # print(f'Resetting substr for {k}')
                     freqs[k].clear()
-                    freqs[k][c] = 1
+                    if k == c:
+                        freqs[k][c] = 1
+                        # print(f'Reinitializing substr: {freqs[k]} - {c}')
             
             # print(f'{freqs=}')
 
@@ -47,11 +49,11 @@ class Solution:
 
 def main():
     s = Solution()
-    # print(s.lengthOfLongestSubstring("pwwkew"))
-    # print(s.lengthOfLongestSubstring("abcabcbb"))
-    # print(s.lengthOfLongestSubstring("bbbb"))
-    # print(s.lengthOfLongestSubstring("aab"))
-    print(s.lengthOfLongestSubstring("nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"))
+    print(s.lengthOfLongestSubstring("pwwkew"))
+    print(s.lengthOfLongestSubstring("abcabcbb"))
+    print(s.lengthOfLongestSubstring("bbbb"))
+    print(s.lengthOfLongestSubstring("aab"))
+    print(s.lengthOfLongestSubstring("wsslpluuwekuaxt"))
 
 if __name__ == '__main__':
     main()

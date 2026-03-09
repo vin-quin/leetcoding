@@ -30,11 +30,17 @@ class Solution:
                         longest = chrLength
 
                     # print(f'Resetting substr for {k}')
-                    freqs[k].clear()
                     if k == c:
+                        freqs[k].clear()
                         freqs[k][c] = 1
                         # print(f'Reinitializing substr: {freqs[k]} - {c}')
-            
+                    else:
+                        keyRemovals.append(k)
+
+            for k in keyRemovals:
+                freqs.pop(k)
+
+            # print(f'Deleted keys: {keyRemovals}')
             # print(f'{freqs=}')
 
         for k in freqs: # Final pass required for end of string with unterminated substrings
@@ -49,12 +55,13 @@ class Solution:
 
 def main():
     s = Solution()
-    # print(s.lengthOfLongestSubstring("pwwkew"))
-    # print(s.lengthOfLongestSubstring("abcabcbb"))
-    # print(s.lengthOfLongestSubstring("bbbb"))
-    # print(s.lengthOfLongestSubstring("aab"))
-    # print(s.lengthOfLongestSubstring("wsslpluuwekuaxt"))
+    print(s.lengthOfLongestSubstring("pwwkew"))
+    print(s.lengthOfLongestSubstring("abcabcbb"))
+    print(s.lengthOfLongestSubstring("bbbb"))
+    print(s.lengthOfLongestSubstring("aab"))
+    print(s.lengthOfLongestSubstring("wsslpluuwekuaxt"))
     print(s.lengthOfLongestSubstring("ojyseenuxxpohrysqixldpki"))
+    print(s.lengthOfLongestSubstring('aabaab!bb'))
 
 if __name__ == '__main__':
     main()

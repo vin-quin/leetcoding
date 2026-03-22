@@ -22,6 +22,11 @@ class Solution:
         print(f'Init: {count}')
         
         for i in range(1, len(s)):
+            if prev == "0": # No leading zeroes allowed
+                continue
+
+            if i+1 < len(s) and s[i+1] == "0": # We lose 1 possibility with a trailing zero so just continue
+                continue
             # suffix1 = ALPHABET[s[i]]
             # suffix2 = None
             if int(prev + s[i]) <= MAX_N:
@@ -47,10 +52,11 @@ class Solution:
 
 def main():
     s = Solution()
-    print(s.numDecodings("12"))
-    print(s.numDecodings("226"))
-    print(s.numDecodings("06"))
-    print(s.numDecodings("11106"))
+    print(s.numDecodings("10"))
+    # print(s.numDecodings("12"))
+    # print(s.numDecodings("226"))
+    # print(s.numDecodings("06"))
+    # print(s.numDecodings("11106"))
 
 if __name__ == '__main__':
     main()

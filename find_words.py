@@ -1,3 +1,4 @@
+from copy import deepcopy
 # https://leetcode.com/problems/word-search-ii/description/
 class Solution:
     def findWords(self, board: list[list[str]], words: list[str]) -> list[str]:
@@ -66,22 +67,27 @@ def checkNeighbors(board, word, x, y):
     
     target = word[0]
     print(f'{target=}')
+    localBoard = deepcopy(board)
 
-    print(f'{isTarget(board, x, y+1, target)=}')
-    if isTarget(board, x, y+1, target):
-        if checkNeighbors(board, word[1:], x, y+1):
+    print(f'{isTarget(localBoard, x, y+1, target)=}')
+    if isTarget(localBoard, x, y+1, target):
+        localBoard[x][y+1] = "-" # Ensure we cant reuse the letter
+        if checkNeighbors(localBoard, word[1:], x, y+1):
             return True
-    print(f'{isTarget(board, x, y-1, target)=}')
-    if isTarget(board, x, y-1, target):
-        if checkNeighbors(board, word[1:], x, y-1):
+    print(f'{isTarget(localBoard, x, y-1, target)=}')
+    if isTarget(localBoard, x, y-1, target):
+        localBoard[x][y-1] = "-"
+        if checkNeighbors(localBoard, word[1:], x, y-1):
             return True
-    print(f'{isTarget(board, x+1, y, target)=}')
-    if isTarget(board, x+1, y, target):
-        if checkNeighbors(board, word[1:], x+1, y):
+    print(f'{isTarget(localBoard, x+1, y, target)=}')
+    if isTarget(localBoard, x+1, y, target):
+        localBoard[x+1][y] = "-"
+        if checkNeighbors(localBoard, word[1:], x+1, y):
             return True
-    print(f"{isTarget(board, x-1, y, target)=}")
-    if isTarget(board, x-1, y, target):
-        if checkNeighbors(board, word[1:], x-1, y):
+    print(f"{isTarget(localBoard, x-1, y, target)=}")
+    if isTarget(localBoard, x-1, y, target):
+        localBoard[x-1][y] = "-"
+        if checkNeighbors(localBoard, word[1:], x-1, y):
             return True
     
     print("FAIL")

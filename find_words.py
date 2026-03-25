@@ -1,4 +1,3 @@
-from copy import deepcopy
 # https://leetcode.com/problems/word-search-ii/description/
 class Solution:
     def findWords(self, board: list[list[str]], words: list[str]) -> list[str]:
@@ -34,7 +33,7 @@ class Solution:
                 else: 
                     charKey[c] = [(x, y)]
 
-        print(charKey)
+        # print(charKey)
 
         found = []
         for w in words:
@@ -42,60 +41,62 @@ class Solution:
                 continue
 
             locs = charKey[w[0]]
-            print(f'Checking locs for {w[0]=}')
+            # print(f'Checking locs for {w[0]=}')
+            used = set()
             for coord in locs:
-                print(f'Checking {coord=}')
-                r = checkNeighbors(board, w[1:], coord[0], coord[1])
+                used.add(f"{coord[0]}{coord[1]}")
+                # print(f'Checking {coord=}')
+                r = checkNeighbors(board, w[1:], coord[0], coord[1], used)
                 if r:
                     found.append(w)
-                    print(f'Found: {found}')
+                    # print(f'Found: {found}')
                     break # Done
 
         return found
 
-def isTarget(board: list[list[str]], x: int, y: int, target: str):
-    if 0 <= y < len(board) and 0 <= x < len(board[0]):
+def isTarget(board: list[list[str]], x: int, y: int, target: str, used):
+    if 0 <= y < len(board) and 0 <= x < len(board[0]) and f"{x}{y}" not in used:
         return target == board[y][x]
     
     return False
 
-def checkNeighbors(board, word, x, y):
-    print(f'Checking for {word}')
+def checkNeighbors(board, word, x, y, used):
+    # print(f'Checking for {word}')
     if word == "": # We found the word on the board
-        print("SUCCESS")
+        # print("SUCCESS")
         return True 
     
     target = word[0]
-    print(f'{target=}')
-    localBoard = deepcopy(board)
+    # print(f'{target=}')
+    # print(f'{used=}')
 
-    print(f'{isTarget(localBoard, x, y+1, target)=}')
-    if isTarget(localBoard, x, y+1, target):
-        localBoard[x][y+1] = "-" # Ensure we cant reuse the letter
-        if checkNeighbors(localBoard, word[1:], x, y+1):
+    # print(f'{isTarget(board, x, y+1, target, used)=}')
+    if isTarget(board, x, y+1, target,used):
+        used.add(f"{x}{y+1}")
+        if checkNeighbors(board, word[1:], x, y+1, used):
             return True
-    print(f'{isTarget(localBoard, x, y-1, target)=}')
-    if isTarget(localBoard, x, y-1, target):
-        localBoard[x][y-1] = "-"
-        if checkNeighbors(localBoard, word[1:], x, y-1):
+    # print(f'{isTarget(board, x, y-1, target,used)=}')
+    if isTarget(board, x, y-1, target,used):
+        used.add(f"{x}{y-1}")
+        if checkNeighbors(board, word[1:], x, y-1, used):
             return True
-    print(f'{isTarget(localBoard, x+1, y, target)=}')
-    if isTarget(localBoard, x+1, y, target):
-        localBoard[x+1][y] = "-"
-        if checkNeighbors(localBoard, word[1:], x+1, y):
+    # print(f'{isTarget(board, x+1, y, target,used)=}')
+    if isTarget(board, x+1, y, target,used):
+        used.add(f"{x+1}{y}")
+        if checkNeighbors(board, word[1:], x+1, y, used):
             return True
-    print(f"{isTarget(localBoard, x-1, y, target)=}")
-    if isTarget(localBoard, x-1, y, target):
-        localBoard[x-1][y] = "-"
-        if checkNeighbors(localBoard, word[1:], x-1, y):
+    # print(f"{isTarget(board, x-1, y, target,used)=}")
+    if isTarget(board, x-1, y, target,used):
+        used.add(f"{x-1}{y}")
+        if checkNeighbors(board, word[1:], x-1, y, used):
             return True
     
-    print("FAIL")
+    # print("FAIL")
     return False # We cannot continue building the word from this position
 
 def main():
     s = Solution()
-    # print(s.findWords([["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]))
+    print(s.findWords([["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]))
     print(s.findWords([["a","b"],["c","d"]], ["aba"]))
 
 if __name__ == '__main__':

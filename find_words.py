@@ -94,10 +94,21 @@ def checkNeighbors(board, word, x, y, used):
     # print("FAIL")
     return False # We cannot continue building the word from this position
 
+'''
+[
+ ["a","b","c"],
+ ["a","e","d"],
+ ["a","f","g"]
+]
+
+
+'''
+
 def main():
     s = Solution()
-    print(s.findWords([["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]))
-    print(s.findWords([["a","b"],["c","d"]], ["aba"]))
+    # print(s.findWords([["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]))
+    # print(s.findWords([["a","b"],["c","d"]], ["aba"]))
+    print(s.findWords([["a","b","c"],["a","e","d"],["a","f","g"]], ["eaabcdgfa"]))
 
 if __name__ == '__main__':
     main()

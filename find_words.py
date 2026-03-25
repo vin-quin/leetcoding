@@ -23,10 +23,74 @@ class Solution:
         O(W + 4(M))
         '''
 
+        charKey = {}
+
+        for y in range(len(board)):
+            for x in range(len(board[0])):
+                c = board[y][x]
+                if c in charKey:
+                    charKey[c].append((x, y))
+                else: 
+                    charKey[c] = [(x, y)]
+
+        print(charKey)
+
+        found = []
+        for w in words:
+            if w[0] not in charKey: # First letter isn't on board it can't exist
+                continue
+
+            locs = charKey[w[0]]
+            print(f'Checking locs for {w[0]=}')
+            for coord in locs:
+                print(f'Checking {coord=}')
+                r = checkNeighbors(board, w[1:], coord[0], coord[1])
+                if r:
+                    found.append(w)
+                    print(f'Found: {found}')
+                    break # Done
+
+        return found
+
+def isTarget(board: list[list[str]], x: int, y: int, target: str):
+    if 0 <= y < len(board) and 0 <= x < len(board[0]):
+        return target == board[y][x]
+    
+    return False
+
+def checkNeighbors(board, word, x, y):
+    print(f'Checking for {word}')
+    if word == "": # We found the word on the board
+        print("SUCCESS")
+        return True 
+    
+    target = word[0]
+    print(f'{target=}')
+
+    print(f'{isTarget(board, x, y+1, target)=}')
+    if isTarget(board, x, y+1, target):
+        if checkNeighbors(board, word[1:], x, y+1):
+            return True
+    print(f'{isTarget(board, x, y-1, target)=}')
+    if isTarget(board, x, y-1, target):
+        if checkNeighbors(board, word[1:], x, y-1):
+            return True
+    print(f'{isTarget(board, x+1, y, target)=}')
+    if isTarget(board, x+1, y, target):
+        if checkNeighbors(board, word[1:], x+1, y):
+            return True
+    print(f"{isTarget(board, x-1, y, target)=}")
+    if isTarget(board, x-1, y, target):
+        if checkNeighbors(board, word[1:], x-1, y):
+            return True
+    
+    print("FAIL")
+    return False # We cannot continue building the word from this position
 
 def main():
     s = Solution()
-    print(s.findWords([["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]))
+    # print(s.findWords([["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]))
+    print(s.findWords([["a","b"],["c","d"]], ["aba"]))
 
 if __name__ == '__main__':
     main()

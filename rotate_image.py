@@ -14,7 +14,7 @@ class Solution:
         h e b
         i f c
 
-        Shift Right 2N+(N-1)
+        Shift Right 2(X+Y)+(N-1)
         [0,1,2,3,4,5,6,7,8]
         read bottom to top left to right = reversed
         '''

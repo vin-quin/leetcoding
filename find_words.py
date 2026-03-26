@@ -22,50 +22,58 @@ class Solution:
 
         O(W + 4(M))
         '''
-        charKey = {}
+        graph = {}
 
         for y in range(len(board)):
             for x in range(len(board[0])):
                 c = board[y][x]
-                if c in charKey:
-                    charKey[c].append((x, y))
+                if c in graph:
+                    graph[c].append((x, y))
                 else: 
-                    charKey[c] = [(x, y)]
+                    graph[c] = [(x, y)]
 
         # print(charKey)
 
         found = []
         for w in words:
-            if w[0] not in charKey: # First letter isn't on board it can't exist
+            valid = True
+
+            if len(w) == 1:
+                if w[0] in graph:
+                    found.append(w)
                 continue
 
-            global prefix
-            newW = w
-            prefix = w[0]
-            if len(w) > 3:
-                # Check if we have a portion of the word cached
-                for i in range(len(w)-1, 3, -1): # all words are unique so its never cached
-                    if w[:i] in cache:
-                        w = w[i:]
-                        prefix = w[:i]
-                        break
 
-            locs = charKey[newW[0]]
+            locs = graph[w[0]]
+            while locs:
+                for loc in locs:
+                    locs = AnyAdjacent(loc, graph[w[+1]])
+                        repeat until false or done
 
-            # print(f'{cache=}')
+            idx = 0
+            curr, prev = w[1], w[0]
+            while prev != w[-1]: 
+                if curr not in graph: # letter isn't on board it can't exist
+                    valid = False
+                    break
+                
+                if isAdjacent(graph, curr, prev):
+                    prev = w[idx]
+                    idx += 1
+                    curr = w[idx]
+                else:
+                    valid = False
+                    break
 
-            # print(f'Checking locs for {w[0]=}')
-            for coord in locs:
-                used = set()
-                used.add(f"{coord[0]}{coord[1]}")
-                # print(f'Checking {coord=}')
-                r = checkNeighbors(board, newW[1:], coord[0], coord[1], used)
-                if r:
-                    found.append(w)
-                    # print(f'Found: {found}')
-                    break # Done
+            if valid:
+                found.append(w)
 
         return found
+
+def isAdjacent(graph: dict, curr: str, prev: str):
+    currLocs, prevLocs = graph[curr], graph[prev]
+
+
 
 prefix = ""
 cache = set() # If a prefix is here, we know it is valid and can skip checking

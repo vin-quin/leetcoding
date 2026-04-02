@@ -2,18 +2,15 @@
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
         # one indexed result
-        tried = set()
-        for i in range(len(nums)):
-            s = nums[i]
-            if s in tried: # We won't succeed repeating this work
-                continue
-            for j in range(i+1, len(nums)):
-                if s + nums[j] == target:
-                    return [i+1, j+1]
-                elif s + nums[j] > target:
-                    break
-            tried.add(nums[i])
-        return []
+        l, r = 0, len(nums)-1
+
+        while nums[l] + nums[r] != target:
+            if nums[l] + nums[r] > target:
+                r -= 1
+            else:
+                l += 1
+
+        return [l+1, r+1]
 
 
 def main():

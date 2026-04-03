@@ -30,7 +30,7 @@ class Solution:
             if height[l] >= maxL:
                 maxL = l
 
-            if height[r] == height[maxL]: # ! If we hit end of array while filling we cannot fill that area and result is 0 for that area
+            if height[r] < height[maxL]: # ! If we hit end of array while filling we cannot fill that area and result is 0 for that area
                 filling = True
 
             if filling:
@@ -40,7 +40,7 @@ class Solution:
                         maxR = i
                         break
 
-                    if height[maxR] < height[i]:
+                    if height[maxR] <= height[i]:
                         maxR = i
 
                 # if maxR == 0 then we never found another end to fill, so we failed
@@ -56,6 +56,8 @@ class Solution:
                     filled += fill
                     l = maxR
                     r = l + 1
+                    maxR = 0
+                    maxL = 0
             else:
                 l += 1
                 r += 1

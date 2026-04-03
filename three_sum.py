@@ -14,6 +14,19 @@ class Solution:
 
         triples = []
 
+        nums.sort()
+        
+        for i in range(len(nums)//2): # Feel like we only need to check half 
+            l, r = i+1, len(nums)-1
+
+            while r > l:
+                if nums[i] + nums[l] + nums[r] == 0 and (i != r and i != l):    
+                    triples.append([nums[i], nums[l], nums[r]])
+                    break
+                r -= 1           
+
+        print(triples)
+
         for i in range(len(nums)):
             for j in range(i, len(nums)):
                 s = nums[i] + nums[j]

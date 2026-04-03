@@ -72,15 +72,39 @@ class Solution:
                 r += 1
 
         return filled
+    
+    def solveOptimal(self, height: list[int])-> int:
+        # Greedy, we calc how much water can be stored at pos[i] given the heighest bar on the side
+        # We build from the minimum of the two max bars found. This guarantees that if we haven't
+        # found a max, we're always gonna get 0 since it spills out. If we have, then we logically know
+        # we can fit SOMETHING SOMEWHERE inside so we build off of that assumption and work our way in.
+        fill = 0
+        l, r = 0, len(height)-1
+        maxL, maxR = height[l], height[r] # wall values
+
+        while l < r: 
+            if maxL <= maxR:
+                l += 1
+                if maxL < height[l]:
+                    maxL = height[l]
+                fill += max(min(maxL, maxR) - height[l], 0)
+            else:
+                r -= 1
+                if maxR < height[r]:
+                    maxR = height[r]
+                fill += max(min(maxL, maxR) - height[r], 0)
+
+        return fill
 
 def main():
     s = Solution()
-    print(s.solve([0,7,1,4,6]))
-    print(s.solve([6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3]))
-    print(s.solve([5,4,1,2]))
-    print(s.solve([4,2,3]))
-    print(s.solve([0,1,0,2,1,0,1,3,2,1,2,1]))
-    print(s.solve([4,2,0,3,2,5]))
+    print(s.solveOptimal([0,7,1,4,6]))
+    print(s.solveOptimal([6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3]))
+    print(s.solveOptimal([5,4,1,2]))
+    print(s.solveOptimal([4,2,3]))
+    print(s.solveOptimal([0,1,0,2,1,0,1,3,2,1,2,1]))
+    print(s.solveOptimal([4,2,0,3,2,5]))
+    print(s.solveOptimal([5,4,3,2,1]))
 
 if __name__ == '__main__':
     main()

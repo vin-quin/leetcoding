@@ -17,7 +17,7 @@ class Solution:
         maxL, maxR= 0, 1
         l, r = 0, 1
         filled = 0
-
+        fillable = False # Short circuit to track if it is even possible for the graph to be fillable
         while l < len(height)-1:
             filling = False
 
@@ -39,6 +39,9 @@ class Solution:
             if filling:
                 # go right until we exceed maxLeftHeight or hit a 0
                 for i in range(r, len(height)):
+                    if height[i-1] - height[i] < 0: # We increased because diff is negative
+                        fillable = True
+
                     if height[i] >= height[maxL]: # We need to fill up to this point
                         maxR = i
                         break
@@ -46,6 +49,8 @@ class Solution:
                     if height[maxR] <= height[i]:
                         maxR = i
 
+                if not fillable:
+                    return filled
                 # if gap between maxL and maxR <= 1 then we never found another end to fill, so we failed
                 if maxR - maxL <= 1:
                     # print(f'Cannot fill between {maxL} and {maxR}')

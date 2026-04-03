@@ -30,7 +30,7 @@ class Solution:
             if height[l] >= maxL:
                 maxL = l
 
-            if height[r] == 0: # ! If we hit end of array while filling we cannot fill that area and result is 0 for that area
+            if height[r] == height[maxL]: # ! If we hit end of array while filling we cannot fill that area and result is 0 for that area
                 filling = True
 
             if filling:

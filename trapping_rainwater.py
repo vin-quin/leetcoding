@@ -14,20 +14,20 @@ class Solution:
         #   if right >= left, that is the max fill we can do so set it and then go back to searching for the next fill poit
         #   else continue incrementing right until we hit 0. Save max and use that to calculate fill between l & r.
         
-        maxR, maxL = 0, 0
+        maxL, maxR= 0, 1
         l, r = 0, 1
         filled = 0
 
         while l < len(height)-1:
             filling = False
-            print(f'Checking: {l=}, {r=}')
+            # print(f'Checking: {l=}, {r=}, {maxL=}, {maxR=}')
 
             if height[l] == 0:
                 l += 1
                 r += 1
                 continue
 
-            if height[l] >= maxL:
+            if height[l] >= height[maxL]:
                 maxL = l
 
             if height[r] < height[maxL]: # ! If we hit end of array while filling we cannot fill that area and result is 0 for that area
@@ -43,21 +43,22 @@ class Solution:
                     if height[maxR] <= height[i]:
                         maxR = i
 
-                # if maxR == 0 then we never found another end to fill, so we failed
-                if maxR == 0:
-                    print(f'Cannot fill between {maxL} and {maxR} -> {fill}')
-                    return filled
+                # if gap between maxL and maxR <= 1 then we never found another end to fill, so we failed
+                if maxR - maxL <= 1:
+                    # print(f'Cannot fill between {maxL} and {maxR}')
+                    l += 1
+                    r += 1
                 else: # succeeded
                     a = min(height[maxR], height[maxL])
                     b = maxR-maxL-1
                     c = sum(height[maxL+1:maxR])
                     fill = (a * b) - c
-                    print(f'Filling between {maxL} and {maxR} -> {fill}')
+                    # print(f'Filling between {maxL} and {maxR} -> {fill}')
                     filled += fill
                     l = maxR
                     r = l + 1
-                    maxR = 0
-                    maxL = 0
+                maxL = l
+                maxR = r
             else:
                 l += 1
                 r += 1
@@ -66,6 +67,9 @@ class Solution:
 
 def main():
     s = Solution()
+    print(s.solve([6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3]))
+    print(s.solve([5,4,1,2]))
+    print(s.solve([4,2,3]))
     print(s.solve([0,1,0,2,1,0,1,3,2,1,2,1]))
     print(s.solve([4,2,0,3,2,5]))
 

@@ -5,28 +5,28 @@ class Solution:
             return False
         
         from collections import deque
-        MAPPING = {
-            "{": "}",
-            "[": "]",
-            "(": ")",
-            }
-        
-        stack = deque()
+
+        closers = deque()
 
         # push all opening onto stack
         # when a closing appears, its opening should be at top of stack if it is valid
         # else invalid
         for c in s:
-            if c in MAPPING.keys():
-                stack.appendleft(c)
-            elif len(stack) > 0:
-                opener = stack.popleft()
-                if c != MAPPING[opener]:
-                    return False
-            else: # Stack should not be empty
-                return False 
+            match c:
+                case "{":
+                    closers.appendleft("}")
+                    continue
+                case "(":
+                    closers.appendleft(")")
+                    continue
+                case "[":
+                    closers.appendleft("]")
+                    continue
 
-        return len(stack) == 0
+            if len(closers) <= 0 or c != closers.popleft():
+                return False
+
+        return len(closers) == 0
 
 
 def main():

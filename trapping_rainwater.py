@@ -20,7 +20,6 @@ class Solution:
 
         while l < len(height)-1:
             filling = False
-            # print(f'Checking: {l=}, {r=}, {maxL=}, {maxR=}')
 
             if height[l] == 0:
                 l += 1
@@ -30,9 +29,13 @@ class Solution:
             if height[l] >= height[maxL]:
                 maxL = l
 
+            if maxR == maxL: # Left met right so we need to swap over
+                maxR += 1
+
             if height[r] < height[maxL]: # ! If we hit end of array while filling we cannot fill that area and result is 0 for that area
                 filling = True
 
+            # print(f'Checking: {l=}, {r=}, {maxL=}, {maxR=}')
             if filling:
                 # go right until we exceed maxLeftHeight or hit a 0
                 for i in range(r, len(height)):
@@ -67,6 +70,7 @@ class Solution:
 
 def main():
     s = Solution()
+    print(s.solve([0,7,1,4,6]))
     print(s.solve([6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3]))
     print(s.solve([5,4,1,2]))
     print(s.solve([4,2,3]))

@@ -2,36 +2,25 @@
 class MinStack:
     def __init__(self):
         self.items = []
-        self.min = -1
+        self.mins = [] # Synced with mins, pos in mins stack is the min for current pos in items stack
 
     def push(self, val: int) -> None:
-        self.items = [val] + self.items
-        self.min += 1
+        self.items.append(val)
 
-        if self.items[self.min] > val:
-            self.min = 0 # new top of stack is min
+        if len(self.items) == 1:
+            self.mins.append(val)
+        else:
+            self.mins.append(min(val, self.mins[-1]))
 
     def pop(self) -> None:
-        self.items.pop(0)
-        if self.min == 0:
-            self.min = self.items.index(min(self.items))
-        else:
-            self.min -= 1
-        
+        self.items.pop()
+        self.mins.pop()
 
     def top(self) -> int:
-        return self.items[0]
+        return self.items[-1]
 
     def getMin(self) -> int:
-        return self.items[self.min]
-
-    def __str__(self):
-        return f'{self.items=}/{self.min=}'
-    
-    def __repr__(self):
-        return f'{self.items=}/{self.min=}'
-        
-
+        return self.mins[-1]
 
 # Your MinStack object will be instantiated and called as such:
 # obj = MinStack()

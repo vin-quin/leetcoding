@@ -11,25 +11,25 @@ class Solution:
         for t in tokens:
             match t:
                 case '*':
-                    right, left = operands.popleft(), operands.popleft()
-                    operands.appendleft(left * right)
+                    right, left = operands.pop(), operands.pop()
+                    operands.append(left * right)
                 case '/':
-                    right, left = operands.popleft(), operands.popleft()
-                    operands.appendleft(trunc(left / right))
+                    right, left = operands.pop(), operands.pop()
+                    operands.append(trunc(left / right))
                 case '+':
-                    right, left = operands.popleft(), operands.popleft()
-                    operands.appendleft(left + right)
+                    right, left = operands.pop(), operands.pop()
+                    operands.append(left + right)
                 case '-':
-                    right, left = operands.popleft(), operands.popleft()
-                    operands.appendleft(left - right)
+                    right, left = operands.pop(), operands.pop()
+                    operands.append(left - right)
                 case _:
-                    operands.appendleft(int(t))
+                    operands.append(int(t))
 
-        return operands.popleft() # last element is result
+        return operands.pop() # last element is result
 
 def main():
     s = Solution()
-    # print(s.solve(["2","1","+","3","*"]))
+    print(s.solve(["2","1","+","3","*"]))
     print(s.solve( ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
 
 if __name__ == '__main__':

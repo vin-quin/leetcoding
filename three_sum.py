@@ -25,6 +25,9 @@ class Solution:
         triplets = []
         # Sliding window from i to end of arr crunching in ot find a valid triple if exists
         for i in range(len(nums)-2): # We are scanning in 3's so don't need to check last 2
+            if nums[i] > 0: # We can't make any more valid triplets
+                return triplets 
+            
             l, r = i+1, len(nums)-1
 
             while l < r:

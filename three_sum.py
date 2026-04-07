@@ -28,15 +28,20 @@ class Solution:
             if nums[i] > 0: # We can't make any more valid triplets
                 return triplets 
             
+
+            # We have to do the dupe check here to not time out :/
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            
             l, r = i+1, len(nums)-1
 
             while l < r:
                 s = nums[i] + nums[l] + nums[r]
-                if s == 0 and i != l and l != r:
-                    triple = sorted([nums[i], nums[l], nums[r]])
-                    triplets.append(triple) if triple not in triplets else ...
-                    # break # We cannot have another triplet from nums[i] that satisfies reqs, go next
-                    l += 1
+                if s == 0:
+                    triplets.append([nums[i], nums[l], nums[r]]) 
+                    l += 1 
+                    while l < r and nums[l] == nums[l-1]: # fast forward to next new number
+                        l += 1
                 elif s <= 0:
                     l += 1
                 else:
@@ -52,6 +57,7 @@ def main():
     print(s.solve([0,0,0]))
     print(s.solve([0,0,0,0]))
     print(s.solve([-2,0,1,1,2]))
+    print(s.solve([-1,0,1,2,-1,-4]))
 
 if __name__ == '__main__':
     main()

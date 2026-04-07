@@ -28,43 +28,45 @@ class Solution:
             set the speed of each new fleet to the min speed in its range
         '''
         
-        cars = sorted(zip(position, speed)) # pos,step
+        cars = sorted(zip(position, speed), reverse=True) # pos,step
         fleetCount = (len(cars))
         fleets = []
         print(cars)
-        [(12,4),(12,2),(6,1),(6,3),(1,1)]
+        # [(12,4),(12,2),(6,1),(6,3),(1,1)]
         currFleetCount = fleetCount
+        
+        l, r = 0, len(cars)-1
+        while cars and l < r: # Slide from i+1 to end, consolidating until we can't. Then +1 and consolidate next
+            # cars = [(c[0]+c[1], c[1]) for c in cars] # step cars forward 1 tick
+            lCar = cars[l][0]+speed[l]
+            cars[l] = (cars[l][0]+speed[l], cars[l][1])
+            print(l, r)
 
-        while cars:
-            cars = [(c[0]+c[1], c[1]) for c in cars] # step cars forward 1 tick
-            carsPasssed = []
-            fleetsSeen = {} # pos: minspeed
+            while cars[r][0] + speed[r] >= lCar: # Car R has to slow down to match L in the fleet
+                rCar = cars[r][0]+speed[r]
+                fleetCar = (min(lCar, rCar), min(speed[l], speed[r]))
+                print(f'Joining fleet: {fleetCar}')
+                cars[r] = cars[l] = fleetCar
+                r -= 1
 
-            for i in range(len(cars)):
-                # Remove all cars that >= target, that is 1 fleet 
-                if cars[i][0] >= target:
-                    carsPasssed.append(i)
-                    continue
-
-                # Consolidate remaining fleets
-                if cars[i][0] not in fleetsSeen: # Min speed of this fleet is the only car
-                    fleetsSeen[cars[i][0]] = cars[i][1]
-                else: # Slow fleet down to slowest car
-                    fleetsSeen[cars[i][0]] = min(cars[i][1], fleetsSeen[cars[i][1]])
-
-            print(fleetsSeen)
-            if carsPasssed:
-                for i in reversed(carsPasssed):
-                    cars.pop(i)
-                fleetCount -= 1
             print(cars)
+            if cars[l][0] >= target:# A fleet has gone remove em all
+                fleetCount -= 1
+                while cars[l][0] >= target:
+                    l += 1
+                    r -= 1
+            else:
+                l+=1
+                r-=1
 
         return fleetCount 
 
 
 def main():
     s = Solution()
-    print(s.solve(12, [10,8,0,5,3], [2,4,1,1,3]))
+    # print(s.solve(12, [10,8,0,5,3], [2,4,1,1,3]))
+    # print(s.solve(10, [3], [3]))
+    print(s.solve(100, [0,2,4], [4,2,1]))
 
 if __name__ == '__main__':
     main()

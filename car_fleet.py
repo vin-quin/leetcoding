@@ -27,45 +27,30 @@ class Solution:
             remove every car that has hit the target inc fleets by 1. If no cars hit target do nothing
             set the speed of each new fleet to the min speed in its range
         '''
-        
+        from math import ceil
         cars = sorted(zip(position, speed), reverse=True) # pos,step
         fleetCount = (len(cars))
-        fleets = []
-        print(cars)
         # [(12,4),(12,2),(6,1),(6,3),(1,1)]
-        currFleetCount = fleetCount
         
-        l, r = 0, len(cars)-1
-        while cars and l < r: # Slide from i+1 to end, consolidating until we can't. Then +1 and consolidate next
-            # cars = [(c[0]+c[1], c[1]) for c in cars] # step cars forward 1 tick
-            lCar = cars[l][0]+speed[l]
-            cars[l] = (cars[l][0]+speed[l], cars[l][1])
-            print(l, r)
+        times = [ceil((target-t[0])/t[1]) for t in cars]
+        print(times)
 
-            while cars[r][0] + speed[r] >= lCar: # Car R has to slow down to match L in the fleet
-                rCar = cars[r][0]+speed[r]
-                fleetCar = (min(lCar, rCar), min(speed[l], speed[r]))
-                print(f'Joining fleet: {fleetCar}')
-                cars[r] = cars[l] = fleetCar
-                r -= 1
+        fleets = [times[-1]]
+        for i in range(len(times)-2, -1, -1):
+            if times[i] >= fleets[-1]: # car in back is faster than car in front, so they become a fleet at some point
+                fleets[-1] = max(times[i], fleets[-1]) # Update the slowest car for this fleet
+            else: # This car is tis own fleet
+                fleets.append(times[i])
 
-            print(cars)
-            if cars[l][0] >= target:# A fleet has gone remove em all
-                fleetCount -= 1
-                while cars[l][0] >= target:
-                    l += 1
-                    r -= 1
-            else:
-                l+=1
-                r-=1
+        print(fleets)
 
-        return fleetCount 
+        return len(fleets) 
 
 
 def main():
     s = Solution()
-    # print(s.solve(12, [10,8,0,5,3], [2,4,1,1,3]))
-    # print(s.solve(10, [3], [3]))
+    print(s.solve(12, [10,8,0,5,3], [2,4,1,1,3]))
+    print(s.solve(10, [3], [3]))
     print(s.solve(100, [0,2,4], [4,2,1]))
 
 if __name__ == '__main__':

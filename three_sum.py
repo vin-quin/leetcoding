@@ -8,45 +8,38 @@ class Solution:
 
         each index is unique and sums to 0
         '''
-        locs = {}
-        for i in range(len(nums)):
-            locs[nums[i]] = i
+        # [-4,-1,-1,0,1,2]
+        #      i    l r  
+        # for i in range(len(nums)):
+        #     while l < r and i != l != r:
+        #         i + l + r == 0:
+        #             correct
+        #         i + l + r < 0: 
+        #             left += 1
+        #         else
+        #             r -= 1
 
-        triples = []
+        # return v
 
         nums.sort()
-        
-        for i in range(len(nums)//2): # Feel like we only need to check half 
+        triplets = []
+        # Sliding window from i to end of arr crunching in ot find a valid triple if exists
+        for i in range(len(nums)-2): # We are scanning in 3's so don't need to check last 2
             l, r = i+1, len(nums)-1
 
-            while r > l:
-                if nums[i] + nums[l] + nums[r] == 0 and (i != r and i != l):    
-                    triples.append([nums[i], nums[l], nums[r]])
-                    break
-                r -= 1           
+            while l < r:
+                s = nums[i] + nums[l] + nums[r]
+                if s == 0 and i != l and l != r:
+                    triple = sorted([nums[i], nums[l], nums[r]])
+                    triplets.append(triple) if triple not in triplets else ...
+                    # break # We cannot have another triplet from nums[i] that satisfies reqs, go next
+                    l += 1
+                elif s <= 0:
+                    l += 1
+                else:
+                    r -= 1
 
-        print(triples)
-
-        for i in range(len(nums)):
-            for j in range(i, len(nums)):
-                s = nums[i] + nums[j]
-                n = s
-
-                if s > 0: # need neg
-                    n = -abs(s)
-                else: # need pos 
-                    n = abs(s)
-
-                if n in locs and (i != j and i != locs[n] and j != locs[n]):
-                    triples.append([nums[i], nums[j], n])
-
-        res = list(map(lambda v: sorted(v), triples))
-        v = []
-        for i in res:
-            if i not in v:
-                v.append(i)
-
-        return v
+        return triplets
 
 
 def main():
@@ -54,6 +47,8 @@ def main():
     print(s.solve([-1,0,1,2,-1,-4]))
     print(s.solve([0,1,1]))
     print(s.solve([0,0,0]))
+    print(s.solve([0,0,0,0]))
+    print(s.solve([-2,0,1,1,2]))
 
 if __name__ == '__main__':
     main()

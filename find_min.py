@@ -23,8 +23,8 @@ class Solution:
 
 def findMin(nums: list[int], l: int, r: int) -> int:
     # print(f'{nums=}, {l=}, {r=}')
-    if r < l:
-        return -1
+    if r <= l:
+        return l
     
     mid = (r-l) // 2
     # print(f'{mid=}')
@@ -40,12 +40,13 @@ def findMin(nums: list[int], l: int, r: int) -> int:
 
 def main():
     s = Solution()
-    print(s.solve([3,4,5,1,2]))
-    print(s.solve([4,5,6,7,0,1,2]))
-    print(s.solve([11,13,15,17]))
-    print(s.solve([-2]))
-    print(s.solve([-2,0]))
-    print(s.solve([0,-2]))
+    print(s.solve([2,3,1]))
+    # print(s.solve([3,4,5,1,2]))
+    # print(s.solve([4,5,6,7,0,1,2]))
+    # print(s.solve([11,13,15,17]))
+    # print(s.solve([-2]))
+    # print(s.solve([-2,0]))
+    # print(s.solve([0,-2]))
 
 if __name__ == '__main__':
     main()

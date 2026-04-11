@@ -23,7 +23,7 @@ class Solution:
         t=?
         [7] The 2 car fleet has hit 12 and been removed from the road, only one fleet remains
 
-        ceil((target - pos) / speed) = how many steps it will take for that car to finish
+        (target - pos) / speed = how many steps it will take for that car to finish
         0->2/2=1 
         1->4/4=1 
         2->12/1=12
@@ -32,11 +32,21 @@ class Solution:
 
         if the car @ i+1 finishes BEFORE or WITH the car @ i then a fleet must be formed of (i, i+1)
         since i+1 cannot actually overtake i, it would have to join in
+
+        [(10,1), (8,1), (0,12), (5,7), (3,3)]
+        [(10,1), (8,1), (5,7), (3,3), (0,12),]
+        go in reverse from r->l
+        for i 
+            if stack
+                if i is faster than top of stack they become a fleet because we know top of stack is in front of i
+                    pop top of stack and push new speed for fleet (pos, slowest) may actually not need to do anything since top should always be sl
+            push onto stack
+        0,12
+        5,7
+        10,1
         '''
-        from math import ceil
-        cars = sorted([(p, ceil((target-p)/s)) for p, s in zip(position, speed)]) # (pos,time to finish)
-        # times = [ceil((target-p)/s) for p, s in zip(position, speed)]
-        print(cars)
+
+        cars = sorted([(p, (target-p)/s) for p, s in zip(position, speed)]) # (pos,time to finish)
         fleets = []
      
         for i in range(len(cars)-1, -1, -1):
@@ -47,29 +57,14 @@ class Solution:
             print(f'{cars[i]} is a new fleet')
             fleets.append(cars[i])
 
-        # [(10,1), (8,1), (0,12), (5,7), (3,3)]
-        # [(10,1), (8,1), (5,7), (3,3), (0,12),]
-        # go in reverse from r->l
-        # for i 
-        #     if stack
-        #         if i is faster than top of stack they become a fleet because we know top of stack is in front of i
-        #             pop top of stack and push new speed for fleet (pos, slowest) may actually not need to do anything since top should always be slowest
-
-        #     push onto stack
-        # 0,12
-        # 5,7
-        # 10,1
-
-        # [(0,25), (2,49), (4,96)]
-
         return len(fleets) 
 
 
 def main():
     s = Solution()
-    # print(s.solve(12, [10,8,0,5,3], [2,4,1,1,3]))
-    # print(s.solve(10, [3], [3]))
-    # print(s.solve(100, [0,2,4], [4,2,1]))
+    print(s.solve(12, [10,8,0,5,3], [2,4,1,1,3]))
+    print(s.solve(10, [3], [3]))
+    print(s.solve(100, [0,2,4], [4,2,1]))
     print(s.solve(10, [8,3,7,4,6,5], [4,4,4,4,4,4]))
 
 if __name__ == '__main__':

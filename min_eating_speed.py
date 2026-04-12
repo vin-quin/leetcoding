@@ -16,10 +16,11 @@ class Solution:
         # rate faster than searching every value from k up/down
         k = piles[-1]
         consumptionTime = 0
+        ub, lb = piles[-1], piles[0] # exclusive max/min k
 
         from math import ceil
         while consumptionTime != h: # O(log h)
-            print(f'Trying consumption with {k=}')
+            print(f'Trying consumption with {k=} - {ub=} - {lb=}')
             consumptionTimes = [ceil(v/k) for v in piles] # O(N)
             
             print(consumptionTimes)
@@ -27,10 +28,16 @@ class Solution:
             consumptionTime = sum(consumptionTimes)
             print(consumptionTime)
 
-            if consumptionTime < h: # Need to eat slower
-                k -= k//2
-            elif consumptionTime > h: # Need to eat faster
-                k += k//2
+            if consumptionTime < h: # Too fast, Need to eat slower
+                print('Too fast')
+                ub = k
+                k -= (ub-lb)//2
+            elif consumptionTime > h: # Too slow, Need to eat faster
+                print('Too slow')
+                lb = k
+                k += (ub-lb)//2
+
+ 
 
 
         '''
@@ -60,9 +67,10 @@ class Solution:
 
 def main():
     s = Solution()
-    print(s.solve([3,6,7,11], 8), 4)
-    print(s.solve([30,11,23,4,20], 5), 30)
+    # print(s.solve([3,6,7,11], 8), 4)
+    # print(s.solve([30,11,23,4,20], 5), 30)
     print(s.solve([30,11,23,4,20], 6), 23)
+    # print(s.solve([30,1,1,1,1], 6), 15)
 
 if __name__ == '__main__':
     main()

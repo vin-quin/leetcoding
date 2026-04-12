@@ -1,36 +1,63 @@
 # https://leetcode.com/problems/largest-rectangle-in-histogram/description/
 class Solution:
     def solve(self, heights: list[int]) -> int:
-        # Take l, r pointer and crunch in, storing max area along the way 
+        # area = 0
 
-        # area = a*b
-        realArea = 0
+        # anything involving index i can only be as big as the min height beside i except for i itself
+        # r, l = 0, 0
+        # [idx, allowedHeight]
+        # while r < len(heights)
+        #     area = min(height[r], height[l]) * max((r-l),1) # Fix 0,0 case
+        #     if area > stack.peek
+        #         stack.pop
+        #         l += 1 # shrink window right
+        #     else:
+        #         r += 1 # expand window right
 
-        theoryArea = {} # Most area possible this idx can have if it went from i to end
-        for i in range(len(heights)):
-            theoryArea[i] = heights[i] * (len(heights) - i)
+        #     s.push(i, min(height[r], height[l]))
 
-        print(theoryArea)
+        # [area, allowedheight]
+        
+        # R->L
+        # 3
+        # 2
+        # 6
+        # 5
+        # 1
+        # 2 
 
-        areas = list(theoryArea.items())
-        areas.sort(key=lambda x: x[1], reverse=True)
-        print(areas)
+        # maxarea=0,3
+        # while stack
+        #     area = pop off top of stack
+        #     area = max(area, min(maxArea[1], area) * (r-l)+1) # set area to 
+        #     if area > maxarea
+        #         maxarea = area, area.maxheight
+        #     else 
+        #         do nothing
 
-        for v in areas:
-            idx, maxA = v
-            print(idx, maxA)
 
-            if maxA <= realArea: # We dont care to check anymore it cant get better
-                print('donezo')
-                break
+        biggestArea = [heights[0], heights[0], 0] # [area, allowedHeight, startIdx]
+        
+        for i in range(1, len(heights)):
+            bar = heights[i]
+            currArea = min(bar, biggestArea[1]) * ((i-biggestArea[2])+1)
+            print(f'Checking area: {bar=}, {currArea=}, {biggestArea=}')
 
-            for i in range(idx, len(heights)):
-                currArea = min(heights[idx], heights[i]) * (i-min(idx,1))
-                print(f'{idx=}/{i=}/{currArea=}')
-                if currArea > realArea:
-                    realArea = currArea
+            if  currArea > biggestArea[0]: # New biggesst area
+                print('New biggest area')
+                biggestArea = [currArea, min(bar, biggestArea[1]), i]
+            # if minHeight(bararea, biggestarea) * (barI - biggestI)+1 > biggestArea
+            #     biggestArea = barArea, minHeight
+            
+            if bar > biggestArea[0]: # The standalone bar is bigger than the combined area so far
+                print('New biggest area from bar')
+                biggestArea = [bar, bar, i]
+            # if bararea > biggestarea
+            #     biggest = bararea, bar
 
-        return realArea 
+        print(f'{biggestArea=}')
+
+        return biggestArea[0] 
 
 
 def main():

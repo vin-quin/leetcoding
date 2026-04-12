@@ -36,36 +36,38 @@ class Solution:
         #         do nothing
 
 
-        biggestArea = [heights[0], heights[0], 0] # [area, allowedHeight, startIdx]
-        
-        for i in range(1, len(heights)):
-            bar = heights[i]
-            currArea = min(bar, biggestArea[1]) * ((i-biggestArea[2])+1)
-            print(f'Checking area: {bar=}, {currArea=}, {biggestArea=}')
+        # biggestArea = [heights[0], heights[0], 0] # [area, allowedHeight, startIdx]
+        # Stack of all bars
+        # Each bar is a boundary, pop 2 first is right second is left
+        # We will work backwards from the array. If the left boundary si smaller, replace it with next on stack
+        # If right is smaller, replace it with left boundary then pull new left from stack
+        stack = [[b, i] for i, b in enumerate(heights)] # [height, idx]
+        r = stack.pop() # Always have 1 element to pull
+        area = r[0]
+        print(f'Starting area: {area}')
 
-            if  currArea > biggestArea[0]: # New biggesst area
-                print('New biggest area')
-                biggestArea = [currArea, min(bar, biggestArea[1]), i]
-            # if minHeight(bararea, biggestarea) * (barI - biggestI)+1 > biggestArea
-            #     biggestArea = barArea, minHeight
-            
-            if bar > biggestArea[0]: # The standalone bar is bigger than the combined area so far
-                print('New biggest area from bar')
-                biggestArea = [bar, bar, i]
-            # if bararea > biggestarea
-            #     biggest = bararea, bar
+        while stack:
+            l = stack.pop()
+            currArea = min(r[0], l[0]) * ((r[1]-l[1])+1)
+            print(f'{l=}/{r=} - Current area: {min(r[0], l[0])} * {(r[1]-l[1])+1} = {currArea}')
+            if currArea > area:
+                print(f'New area PB: {currArea} - Old: {area}')
+                area = currArea
 
-        print(f'{biggestArea=}')
+            if r[0] < l[0]:
+                r = l
+            else:
+                r[0] = min(r[0], l[0])
 
-        return biggestArea[0] 
+        return area
 
 
 def main():
     s = Solution()
     print(s.solve([2,1,5,6,2,3]))
-    # print(s.solve([2,4]))
-    # print(s.solve([7,1,7,2,2,4]))
-    # print(s.solve([1,3,7]))
+    print(s.solve([2,4]))
+    print(s.solve([7,1,7,2,2,4]))
+    print(s.solve([1,3,7]))
 
 if __name__ == '__main__':
     main()

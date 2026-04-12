@@ -1,77 +1,36 @@
 # https://leetcode.com/problems/largest-rectangle-in-histogram/description/
 class Solution:
     def solve(self, heights: list[int]) -> int:
-        # area = 0
-
         # anything involving index i can only be as big as the min height beside i except for i itself
-        # r, l = 0, 0
-        # [idx, allowedHeight]
-        # while r < len(heights)
-        #     area = min(height[r], height[l]) * max((r-l),1) # Fix 0,0 case
-        #     if area > stack.peek
-        #         stack.pop
-        #         l += 1 # shrink window right
-        #     else:
-        #         r += 1 # expand window right
+        heights.append(0) # We add a known good endpoint. This wont impact area calcs 
+        stack = [0]
+        area = heights[0]
 
-        #     s.push(i, min(height[r], height[l]))
+        for i in range(1, len(heights)):
+            while stack and heights[stack[-1]] > heights[i]: # Curr is smaller than top of stack, right boundary found
+                print(f'Top of stack > heights[i]: {heights[stack[-1]]} > {heights[i]} -> {area=}')
+                # Pop stack until the current is LARGER than stack top again or empty, whwatever comes first
+                idx = stack.pop()
 
-        # [area, allowedheight]
-        
-        # R->L
-        # 3
-        # 2
-        # 6
-        # 5
-        # 1
-        # 2 
-
-        # maxarea=0,3
-        # while stack
-        #     area = pop off top of stack
-        #     area = max(area, min(maxArea[1], area) * (r-l)+1) # set area to 
-        #     if area > maxarea
-        #         maxarea = area, area.maxheight
-        #     else 
-        #         do nothing
-
-
-        # biggestArea = [heights[0], heights[0], 0] # [area, allowedHeight, startIdx]
-        # Stack of all bars
-        # Each bar is a boundary, pop 2 first is right second is left
-        # We will work backwards from the array. If the left boundary si smaller, replace it with next on stack
-        # If right is smaller, replace it with left boundary then pull new left from stack
-        stack = [[b, i] for i, b in enumerate(heights)] # [height, idx]
-        r = stack.pop() # Always have 1 element to pull
-        area = r[0]
-        print(f'Starting area: {area}')
-
-        while stack:
-            l = stack.pop()
-            currArea = min(r[0], l[0]) * ((r[1]-l[1])+1)
-            print(f'{l=}/{r=} - Current area: {min(r[0], l[0])} * {(r[1]-l[1])+1} = {currArea}')
-            if currArea > area:
-                print(f'New area PB: {currArea} - Old: {area}')
-                area = currArea
-                # r[0] = min(r[0], l[0])
-                # continue
-
-            elif l[0] > area:    # Case where we only want 1 bar's area
-                print(f'New area 1 bar PB: {l[0]} - Old: {area}')
-                area = l[0]
-                # r = l
-
-            if r[0] <= l[0]:
-                r = l
+                # We calc area as we go, since we know the stack is increasing taking the idx's height is guaranteed
+                # To be the best height we can do
+                currArea = heights[idx] * (i - idx - 1)
+                if currArea > area:
+                    area = currArea
             else:
-                r[0] = min(r[0], l[0])
+                currArea = heights[idx] * (i - -1 - 1)
+                if currArea > area:
+                    area = currArea
+
+            stack.append(i)
+        
 
         return area
 
 
 def main():
     s = Solution()
-    print(s.solve([2,1,5,6,2,3]), 10)
+    # print(s.solve([2,1,5,6,2,3]), 10)
     # print(s.solve([2,4]), 4)
     # print(s.solve([7,1,7,2,2,4]), 8)
     # print(s.solve([1,3,7]), 7)
@@ -79,7 +38,8 @@ def main():
     # print(s.solve([0,9]), 9)
     # print(s.solve([0]), 0)
     # print(s.solve([1,8,9]), 16)
-    print(s.solve([4,2,0,3,2,4,3,4]), 10)
+    # print(s.solve([4,2,0,3,2,4,3,4]), 10)
+    print(s.solve([0,3,2,4,3,4]), 10)
 
 if __name__ == '__main__':
     main()

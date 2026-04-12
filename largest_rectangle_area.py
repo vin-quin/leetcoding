@@ -44,17 +44,24 @@ class Solution:
         stack = [[b, i] for i, b in enumerate(heights)] # [height, idx]
         r = stack.pop() # Always have 1 element to pull
         area = r[0]
-        # print(f'Starting area: {area}')
+        print(f'Starting area: {area}')
 
         while stack:
             l = stack.pop()
             currArea = min(r[0], l[0]) * ((r[1]-l[1])+1)
-            # print(f'{l=}/{r=} - Current area: {min(r[0], l[0])} * {(r[1]-l[1])+1} = {currArea}')
+            print(f'{l=}/{r=} - Current area: {min(r[0], l[0])} * {(r[1]-l[1])+1} = {currArea}')
             if currArea > area:
-                # print(f'New area PB: {currArea} - Old: {area}')
+                print(f'New area PB: {currArea} - Old: {area}')
                 area = currArea
+                # r[0] = min(r[0], l[0])
+                # continue
 
-            if r[0] < l[0]:
+            elif l[0] > area:    # Case where we only want 1 bar's area
+                print(f'New area 1 bar PB: {l[0]} - Old: {area}')
+                area = l[0]
+                # r = l
+
+            if r[0] <= l[0]:
                 r = l
             else:
                 r[0] = min(r[0], l[0])
@@ -64,10 +71,15 @@ class Solution:
 
 def main():
     s = Solution()
-    print(s.solve([2,1,5,6,2,3]))
-    print(s.solve([2,4]))
-    print(s.solve([7,1,7,2,2,4]))
-    print(s.solve([1,3,7]))
+    print(s.solve([2,1,5,6,2,3]), 10)
+    # print(s.solve([2,4]), 4)
+    # print(s.solve([7,1,7,2,2,4]), 8)
+    # print(s.solve([1,3,7]), 7)
+    # print(s.solve([9,0]), 9)
+    # print(s.solve([0,9]), 9)
+    # print(s.solve([0]), 0)
+    # print(s.solve([1,8,9]), 16)
+    print(s.solve([4,2,0,3,2,4,3,4]), 10)
 
 if __name__ == '__main__':
     main()

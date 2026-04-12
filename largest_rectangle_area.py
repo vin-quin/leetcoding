@@ -44,14 +44,14 @@ class Solution:
         stack = [[b, i] for i, b in enumerate(heights)] # [height, idx]
         r = stack.pop() # Always have 1 element to pull
         area = r[0]
-        print(f'Starting area: {area}')
+        # print(f'Starting area: {area}')
 
         while stack:
             l = stack.pop()
             currArea = min(r[0], l[0]) * ((r[1]-l[1])+1)
-            print(f'{l=}/{r=} - Current area: {min(r[0], l[0])} * {(r[1]-l[1])+1} = {currArea}')
+            # print(f'{l=}/{r=} - Current area: {min(r[0], l[0])} * {(r[1]-l[1])+1} = {currArea}')
             if currArea > area:
-                print(f'New area PB: {currArea} - Old: {area}')
+                # print(f'New area PB: {currArea} - Old: {area}')
                 area = currArea
 
             if r[0] < l[0]:

@@ -38,8 +38,6 @@ class Solution:
                 k += (ub-lb)//2
 
  
-
-
         '''
         k=11
         sum(1,1,1,1) -> all consumed at h=4 for k=11
@@ -60,10 +58,6 @@ class Solution:
 
         we're done
         '''
-
-
-        return k
-
 
 def main():
     s = Solution()

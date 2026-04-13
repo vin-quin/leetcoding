@@ -4,19 +4,10 @@ class Solution:
         # Can only eat from one pile at a time
         # What is the smallest number of bananas I can eat that makes all piles 0 by time h
 
-        piles.sort()
-
-        # Koko eats h times (so she eats as slow as possible)
-        # If h == number of piles, Koko must eat at the max pile size to finish in time
-        if len(piles) == h:
-            return piles[-1]
-        
-        # k = eatingSpeed
-        # Starting at k=maxEatingSpeed, we can binary search with different k's to determine the optimal
-        # rate faster than searching every value from k up/down
-        k = piles[-1]
+        # # Koko eats h times (so she eats as slow as possible)
+        # # If h == number of piles, Koko must eat at the max pile size to finish in time
         consumptionTime = 0
-        ub, lb = piles[-1], 1 # exclusive max/min k
+        ub, lb = max(piles), 1 # exclusive max/min k
 
         from math import ceil
         while lb <= ub: # O(log h)
@@ -29,27 +20,7 @@ class Solution:
                 lb = mid+1
 
         return lb
- 
-        '''
-        k=11
-        sum(1,1,1,1) -> all consumed at h=4 for k=11
 
-        if k is too fast:
-            k -= k//2
-        else if k is too slow
-            k += k//2
-
-        k=11-5=6
-        sum(1,1,2,2) -> consumed @ h=6 too fast
-
-        k=6-3=3
-        sum(1,2,3,4) -> consumed @ h=10 too slow
-
-        k=3+1
-        sum(1,2,2,3) -> consumed @ h=8 perfect
-
-        we're done
-        '''
 
 def main():
     s = Solution()

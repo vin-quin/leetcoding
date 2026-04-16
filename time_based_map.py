@@ -22,10 +22,8 @@ class TimeMap:
         idx = search(self.timestamps[key], timestamp, 0, len(self.timestamps[key])-1)
         return self.kv[key][idx] if idx >= 0 else "" # Return last value is we dont find one for this key
 
-# high low
-# 10   20
 def search(arr: list[int], timestamp: int, l: int, r: int) -> int:
-    if r < l:
+    if r < l: # Return closest timestamp below target if we cant find target
         return l-1
 
     mid = l+(r-l)//2

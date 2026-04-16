@@ -20,11 +20,13 @@ class TimeMap:
             return ""
         
         idx = search(self.timestamps[key], timestamp, 0, len(self.timestamps[key])-1)
-        return self.kv[key][idx] if idx >= 0 else self.kv[key][-1] # Return last value is we dont find one for this key
+        return self.kv[key][idx] if idx >= 0 else "" # Return last value is we dont find one for this key
 
+# high low
+# 10   20
 def search(arr: list[int], timestamp: int, l: int, r: int) -> int:
     if r < l:
-        return -1
+        return l-1
 
     mid = l+(r-l)//2
     if arr[mid] == timestamp:
@@ -45,6 +47,7 @@ def search(arr: list[int], timestamp: int, l: int, r: int) -> int:
 def main():
     timeMap = TimeMap()
     (timeMap.set("foo", "bar", 1))  # store the key "foo" and value "bar" along with timestamp = 1.
+    print(timeMap.get("foo", 0))         # return "bar"
     print(timeMap.get("foo", 1))         # return "bar"
     print(timeMap.get("foo", 3))         # return "bar", since there is no value corresponding to foo at timestamp 3 and timestamp 2, then the only value is at timestamp 1 is "bar".
     (timeMap.set("foo", "bar2", 4)) # store the key "foo" and value "bar2" along with timestamp = 4.

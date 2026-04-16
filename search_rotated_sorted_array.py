@@ -3,16 +3,8 @@ class Solution:
     def solve(self,  nums: list[int], target: int) -> int:
         # If the mid point is greater than mid-1, then we are a sorted arr and can run as normal
         # Else typical binary search rules need to be reversed
-        
         l, r = 0, len(nums)-1
-        # if nums[l] < nums[r]: # The array must be sorted properly for this to hold true
         return search(nums, target, l, r)
-        # elif target > nums[mid]: # target will be on left
-        #     return search(nums, target, l, mid-1)
-        # else: # target will be on right
-        #     return search(nums, target, mid+1, r)
-        
-# if left < mid < target then I must go right
 
 def search(nums: list[int], target: int, l: int, r: int) -> int:
     if l > r:
@@ -28,6 +20,7 @@ def search(nums: list[int], target: int, l: int, r: int) -> int:
     if nums[r] == target:
         return r
     
+    # We dont know where true bounds are so we shimmy left and right until we can properly binary search when we find the range
     if target < nums[l]:
         return search(nums, target, l+1, r)
     elif target > nums[r]:
@@ -37,10 +30,8 @@ def search(nums: list[int], target: int, l: int, r: int) -> int:
     elif target < nums[mid]:
         return search(nums, target,l,  mid-1)
 
-78123456
-# If target LESS than LEFT then it must be on the right side
-# Elif target GREATER than RIGHT it must be on the left side
-# Else its porbably sorted so go off mid
+    return -1
+
 def main():
     s = Solution()
     print(s.solve([4,5,6,7,0,1,2], 0), 4)

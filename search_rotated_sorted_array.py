@@ -28,22 +28,19 @@ def search(nums: list[int], target: int, l: int, r: int) -> int:
     if nums[r] == target:
         return r
     
-    if nums[l] <= nums[mid] <= nums[r]: # This section is properly sorted
-        if nums[mid] > target:
-            return search(nums, target, l, mid-1)
-        else:
-            return search(nums, target, mid+1, r)
-    else: # We are not properly sorted so invert the typical rules
-        if nums[mid] < nums[min(mid+1, r)]: # The next num is greater, normal binary search
+    if target < nums[l]:
+        return search(nums, target, l+1, r)
+    elif target > nums[r]:
+        return search(nums, target,l,  r-1)
+    elif target > nums[mid]:
+        return search(nums, target, mid+1, r)
+    elif target < nums[mid]:
+        return search(nums, target,l,  mid-1)
 
-        
-        if target <= nums[r]: # target is smaller than midpoint, go right instead
-            return search(nums, target, mid+1, r)
-        else:
-            return search(nums, target, l, mid-1)
 78123456
 # If target LESS than LEFT then it must be on the right side
 # Elif target GREATER than RIGHT it must be on the left side
+# Else its porbably sorted so go off mid
 def main():
     s = Solution()
     print(s.solve([4,5,6,7,0,1,2], 0), 4)

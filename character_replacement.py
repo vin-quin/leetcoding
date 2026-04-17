@@ -37,16 +37,20 @@ class Solution:
                 while s[l] == replaceChar: # Inch up until we found a char we replaced, go past it to recover 1 replacement
                     l += 1
                 l += 1 # So it continues AFTER the replacement
-                replacementsLeft += 1
+                if l > r:
+                    r += 1
+                replacementsLeft += min(k, 1) # If k==0 we dont want to increment wrongly
 
         return maxLen
 
 def main():
     s = Solution()
-    print(s.solve("ABAB", 2), 4)
-    print(s.solve("ABABBA", 2), 5)
-    print(s.solve("AABABBA", 1), 4)
-    print(s.solve("AABABBABB", 3), 8)
+    # print(s.solve("ABAB", 2), 4)
+    # print(s.solve("ABABBA", 2), 5)
+    # print(s.solve("AABABBA", 1), 4)
+    # print(s.solve("AABABBABB", 3), 8)
+    print(s.solve("AAAB", 0), 3)
+
 
 if __name__ == '__main__':
     main()

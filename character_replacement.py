@@ -3,56 +3,43 @@ class Solution:
     def solve(self, s: str, k: int) -> int:
         from collections import defaultdict
 
-        freq = defaultdict(int)
-        for c in s:
-            freq[c] += 1
-
-        # Replace each char in string with the most freq occurring char while we can.
-        # Kinda like a worm, keep inching forwards til you find an unreplaceable
-        # Then inch your tail back up until you can replace again. Repeat to EOF
         l, r = 0, 0
-        replaceChar = max(freq.items(), key=lambda x: x[1])[0]
         replacementsLeft = k
         maxLen = 0
 
-        # while window is valid extend to the right if possible
-        #     if window is invalidated
-        #         Check if we beat previous best size
-        #         shrink L->R until valid
+        # The window length - most freq char in the window must be <= k for the window to be valid
+        # Else we need to shift
+        window = ''
+        maxWindow = ''
+        freq = defaultdict(int)
 
         while r < len(s):
-            if s[r] == replaceChar: # Char already correct keep searching
+            freq[r] += 1
+            mostFreq = max(freq.items(), key=lambda x: x[1])
+
+            if s[r] == mostFreq[0]: # This is our targetChar we just expand
                 r += 1
-
                 continue
 
-            # Char needs to be replaced
-            if replacementsLeft > 0:
-                replacementsLeft -= 1
-                r += 1 # Char has been replaced
-                
-                continue
+            if len(s[l:r+1]) > len(maxWindow):
+                maxWindow = s[l:r+1]
 
-            # Window is invalid at this point, we can check
-            if maxLen < (r-l)+1:
-                maxLen = (r-l)+min(l, 1)
+            while len(window[l:r+1]) - mostFreq[1] > k: # We have more diff chars than replacements, this window is invalid
+                freq[l] -= 1 # Remove from window
+                l += 1 # Shrink window until we are valid again
 
-            # Cant replace anymore tail has to shrink 
-            while s[l] == replaceChar and l < r: # Inch up until we found a char we replaced, go past it to recover 1 replacement
-                l += 1
-            l += 1 # So it continues AFTER the replacement
-            r += 1 # Go next, we just replaced the oldest with newest so we can continue
-            replacementsLeft += min(k, 1) # If k==0 we dont want to increment wrongly
+            r += 1
 
-        return max(maxLen, ((r-1)-l+1))
+        print(maxWindow)
+        return len(maxWindow)
 
 def main():
     s = Solution()
-    print(s.solve("ABAB", 2), 4)
+    # print(s.solve("ABAB", 2), 4)
     print(s.solve("ABABBA", 2), 5)
-    print(s.solve("AABABBA", 1), 4)
-    print(s.solve("AABABBABB", 3), 8)
-    print(s.solve("AAAB", 0), 3)
+    # print(s.solve("AABABBA", 1), 4)
+    # print(s.solve("AABABBABB", 3), 8)
+    # print(s.solve("AAAB", 0), 3)
 
 
 if __name__ == '__main__':

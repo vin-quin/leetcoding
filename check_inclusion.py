@@ -17,26 +17,49 @@ class Solution:
         l, r = 0, 0
         # print(freqs)
 
-        for l in range(len(s2)):
-            # print(f'Starting @ {l}')
-            freqs = masterFreqs
-            r = l
-            while r < len(s2) and s2[l] in freqs: # Valid window start
-                # print(f'Scan {l=} - {r=}')
+        windowFreqs = defaultdict(int)
+        while r < len(s2):
+            windowFreqs[s2[r]] += 1
 
-                if s2[r] not in freqs: # Unfixable invalid
-                    freqs[s2[l]] += 1
-                    break
+            # Window is invalid its impossible so fast forward and reset window
+            if s2[r] not in masterFreqs: 
+                l = r+1
+                r = l
+                windowFreqs.clear()
+                continue
 
-                freqs[s2[r]] -= 1
-                if freqs[s2[r]] < 0: # Window is invalid shrink it until it is
-                    freqs[s2[l]] += 1
-                    l += 1
-                print(freqs)
-                if sum(freqs.values()) == 0:
-                    return True
+            # Winow is invalid we cannot afford another s2[r] in this substring, shrink window
+            while windowFreqs[s2[r]] > masterFreqs[s2[r]] and l <= r:
+                windowFreqs[s2[l]] -= 1
+                l += 1
 
-                r += 1
+            # Window may be valid
+            if windowFreqs == masterFreqs:
+                return True
+            
+            r += 1
+
+
+        # for l in range(len(s2)):
+        #     # print(f'Starting @ {l}')
+        #     freqs = masterFreqs
+        #     r = l
+        #     while r < len(s2) and s2[l] in freqs: # Valid window start
+        #         # print(f'Scan {l=} - {r=}')
+
+        #         if s2[r] not in freqs: # Unfixable invalid
+        #             freqs[s2[l]] += 1
+        #             break
+
+        #         freqs[s2[r]] -= 1
+        #         if freqs[s2[r]] < 0: # Window is invalid shrink it until it is
+        #             freqs[s2[l]] += 1
+        #             l += 1
+        #         print(freqs)
+        #         if sum(freqs.values()) == 0:
+        #             return True
+
+        #         r += 1
 
 
 
@@ -69,9 +92,9 @@ class Solution:
 
 def main():
     s = Solution()
-    print(s.solve("hello", "ooolleoooleh"), False)
+    # print(s.solve("hello", "ooolleoooleh"), False)
     # print(s.solve("ab", "eidbaooo"), True)
-    # print(s.solve("ab", "eidboaoo"), False)
+    print(s.solve("ab", "eidboaoo"), False)
     # print(s.solve("eidbaooo", "ab"), False)
     # print(s.solve("abc", "ab"), False)
     # print(s.solve("abc", "abc"), True)

@@ -6,10 +6,10 @@ class Solution:
 
         # Can start from ANY letter in S1 in S2's permutation
         from collections import defaultdict
-        freqs = defaultdict(int)
+        masterFreqs = defaultdict(int)
 
         for c in s1:
-            freqs[c] += 1
+            masterFreqs[c] += 1
 
         # While window is valid we will continue to pull chars from the s1 freqs
         # If right hits a point that invalidates the window then we need to shrink until we are valid again just like longest repeating char in sequence
@@ -17,34 +17,61 @@ class Solution:
         l, r = 0, 0
         # print(freqs)
 
-        while r < len(s2):
-            # Scan forward until we find a character we can start building a permutation from
-            while l < len(s2) and s2[l] not in freqs:
-                l += 1
+        for l in range(len(s2)):
+            # print(f'Starting @ {l}')
+            freqs = masterFreqs
+            r = l
+            while r < len(s2) and s2[l] in freqs: # Valid window start
+                # print(f'Scan {l=} - {r=}')
+
+                if s2[r] not in freqs: # Unfixable invalid
+                    freqs[s2[l]] += 1
+                    break
+
+                freqs[s2[r]] -= 1
+                if freqs[s2[r]] < 0: # Window is invalid shrink it until it is
+                    freqs[s2[l]] += 1
+                    l += 1
+                print(freqs)
+                if sum(freqs.values()) == 0:
+                    return True
+
+                r += 1
+
+
+
+        # while r < len(s2):
+            # If R is not in S1 then scna forward until it is and we begin from
             
-            r = l # Scan from valid window start
+            # # Scan forward until we find a character we can start building a permutation from
+            # while l < len(s2) and s2[l] not in freqs:
+            #     l += 1
+            #     r = l # Scan from valid window start if we need to move forward
+            # print(l, r)
 
-            # If s[r] is in freqs and > 0 this we are still valid
-            # Else We are invalid
-            freqs[s2[r]] -= 1
+            # # If s[r] is in freqs and > 0 this we are still valid
+            # # Else We are invalid
+            # freqs[s2[r]] -= 1
 
-            if s2[r] not in freqs or freqs[s2[r]] < 0: # Invalid window, shrink
-                freqs[s2[l]] += 1 # We need this letter again for a valid permutation
-                l += 1
+            # if s2[r] not in freqs or freqs[s2[r]] < 0: # Invalid window, shrink
+            #     print('shrinking')
+            #     freqs[s2[l]] += 1 # We need this letter again for a valid permutation
+            #     l += 1
 
-            # print(sum(freqs.values()))
-            if sum(freqs.values()) == 0: # A permutation has been found
-                return True
+            # print(freqs)
+            # if r-l+1 == targetSum: # A permutation has been found
+            #     return True
             
-            r += 1
+            # r += 1
 
         return False
 
 
 def main():
     s = Solution()
+    print(s.solve("hello", "ooolleoooleh"), False)
     # print(s.solve("ab", "eidbaooo"), True)
-    print(s.solve("ab", "eidboaoo"), False)
+    # print(s.solve("ab", "eidboaoo"), False)
     # print(s.solve("eidbaooo", "ab"), False)
     # print(s.solve("abc", "ab"), False)
     # print(s.solve("abc", "abc"), True)

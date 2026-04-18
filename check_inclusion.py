@@ -39,67 +39,19 @@ class Solution:
             
             r += 1
 
-
-        # for l in range(len(s2)):
-        #     # print(f'Starting @ {l}')
-        #     freqs = masterFreqs
-        #     r = l
-        #     while r < len(s2) and s2[l] in freqs: # Valid window start
-        #         # print(f'Scan {l=} - {r=}')
-
-        #         if s2[r] not in freqs: # Unfixable invalid
-        #             freqs[s2[l]] += 1
-        #             break
-
-        #         freqs[s2[r]] -= 1
-        #         if freqs[s2[r]] < 0: # Window is invalid shrink it until it is
-        #             freqs[s2[l]] += 1
-        #             l += 1
-        #         print(freqs)
-        #         if sum(freqs.values()) == 0:
-        #             return True
-
-        #         r += 1
-
-
-
-        # while r < len(s2):
-            # If R is not in S1 then scna forward until it is and we begin from
-            
-            # # Scan forward until we find a character we can start building a permutation from
-            # while l < len(s2) and s2[l] not in freqs:
-            #     l += 1
-            #     r = l # Scan from valid window start if we need to move forward
-            # print(l, r)
-
-            # # If s[r] is in freqs and > 0 this we are still valid
-            # # Else We are invalid
-            # freqs[s2[r]] -= 1
-
-            # if s2[r] not in freqs or freqs[s2[r]] < 0: # Invalid window, shrink
-            #     print('shrinking')
-            #     freqs[s2[l]] += 1 # We need this letter again for a valid permutation
-            #     l += 1
-
-            # print(freqs)
-            # if r-l+1 == targetSum: # A permutation has been found
-            #     return True
-            
-            # r += 1
-
         return False
 
 
 def main():
     s = Solution()
-    # print(s.solve("hello", "ooolleoooleh"), False)
-    # print(s.solve("ab", "eidbaooo"), True)
+    print(s.solve("hello", "ooolleoooleh"), False)
+    print(s.solve("ab", "eidbaooo"), True)
     print(s.solve("ab", "eidboaoo"), False)
-    # print(s.solve("eidbaooo", "ab"), False)
-    # print(s.solve("abc", "ab"), False)
-    # print(s.solve("abc", "abc"), True)
-    # print(s.solve("ab", "abc"), True)
-    # print(s.solve("ab", "back"), True)
+    print(s.solve("eidbaooo", "ab"), False)
+    print(s.solve("abc", "ab"), False)
+    print(s.solve("abc", "abc"), True)
+    print(s.solve("ab", "abc"), True)
+    print(s.solve("ab", "back"), True)
 
 if __name__ == '__main__':
     main()

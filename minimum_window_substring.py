@@ -6,7 +6,7 @@ class Solution:
 
         from collections import Counter
 
-        window = s
+        window = s + '-' # Invalid char just so we know the window hasn't been modified
         freqT = Counter(t)
         print(freqT)
 
@@ -51,15 +51,15 @@ class Solution:
                 
             l += 1
 
-        return window if max(windowFreq.values()) <= 0 else '' # No valid substring t in s
+        return window if len(window) <= len(s) else '' # No valid substring t in s
 
 
 def main():
     s = Solution()
     # print(s.solve("ADOBECODEBANC", "ABC"), 'BANC')
     # print(s.solve("ADOBECODEBANC", "DEDOB"), 'DOBECOD')
-    print(s.solve("a", "a"), 'a')
-    # print(s.solve("a", "aa"), '')
+    # print(s.solve("a", "a"), 'a')
+    print(s.solve("a", "aa"), '')
 
 if __name__ == '__main__':
     main()

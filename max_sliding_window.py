@@ -1,9 +1,6 @@
 # https://leetcode.com/problems/sliding-window-maximum/description/
 class Solution:
     def solve(self, nums: list[int], k: int) -> list[int]:
-        q = []
-        maxQ = [] # high...low
-
         from collections import deque
         q = deque()
         maxQ = deque()

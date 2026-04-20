@@ -26,6 +26,37 @@ public class Main {
 
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        return null;
+        // Take the max of EACH window and add that. Same logic applies the first
+        // Window is our starting max and it only changes by 1 each time so
+        // A single check tells us the new max in the current window
+        // O(N)
+
+        // Monotonically increasing stack of size k
+        // Store as pairs of (index,value)
+        // If index is OOB pop it its dead forever
+        // Else if new N is a new max we can clear the stack
+        //  Because we're guaranteed this new max at minimum for the next K elements
+
+        // Store the index of the max in THIS window
+        // If new int is BIGGER than max
+            // We update the new max it and continue no scan needed
+        // If index is out of bounds 
+            // We need to scan this window again fora new max
+
+
+        // The first window is the initial max window
+        int[] maxWindow = new int[nums.length];
+        int maxN = nums[0]; // Biggest num in max window. This must be exceeded to take a new max
+
+        // We check the initial k elements to get the starting max
+        for (int i = 1; i < k; i++) {
+            if (nums[i] > maxN) {
+                maxN = nums[i];
+            }
+        }
+
+        // Check each next in window til we are done
+
+        return maxWindow;
     }
 }

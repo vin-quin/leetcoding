@@ -6,14 +6,28 @@ class Solution:
         # print(q)
         # print(maxN)
 
+        # MaxStack
+        # Add nums[i] to stack
+        # while stack.getMax is OOB
+        #     stack.popMax
+
+        # q.append(i, nums[stack.getMax])
+
         maxWindow = [maxN]
 
         # i is left ptr, i+k is. right
         for i in range(k, len(nums)):
-            q.pop(0) # Front element has been replaced
+            rem = q.pop(0) # Front element has been replaced
             q.append((i, nums[i]))
             # print(q)
-            maxWindow.append(max(q, key=lambda x: x[1]))
+
+            if rem[1] == maxN[1]: # No longer in bounds we need to search for anew max or we just removed our max
+                maxN = max(q, key=lambda x: x[1])
+            else:
+                if maxN[1] <= q[-1][1]: # Replace with our new max or the same later max
+                    maxN = q[-1]
+                
+            maxWindow.append(maxN)
 
         return [t[1] for t in maxWindow]
 

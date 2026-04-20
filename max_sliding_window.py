@@ -4,6 +4,10 @@ class Solution:
         q = []
         maxQ = [] # high...low
 
+        from collections import deque
+        q = deque()
+        maxQ = deque()
+
         for i in range(k):
             q.append(nums[i])
 
@@ -19,12 +23,12 @@ class Solution:
         # Each new max replaces every smaller val in the maxQ since a new max always comes after
         # So its always in the new range. 
         for i in range(k, len(nums)):
-            q.pop(0) # Front element has been replaced
+            q.popleft() # Front element has been replaced
             q.append(nums[i])
 
             # Check if curr max is inbounds still
             while maxQ and maxQ[0] <= i-k: # maxQ idx < i-k = OOB
-                maxQ.pop(0)
+                maxQ.popleft()
 
             # Check for a new max, replace every smaller val with this. It dominates them
             while maxQ and nums[maxQ[-1]] < nums[i]:

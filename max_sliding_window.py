@@ -1,35 +1,39 @@
 # https://leetcode.com/problems/sliding-window-maximum/description/
 class Solution:
     def solve(self, nums: list[int], k: int) -> list[int]:
-        q = [(i, nums[i]) for i in range(k)]
-        maxN = max(q, key=lambda x: x[1])
-        # print(q)
-        # print(maxN)
+        q = []
+        maxQ = [] # high...low
 
-        # MaxStack
-        # Add nums[i] to stack
-        # while stack.getMax is OOB
-        #     stack.popMax
+        for i in range(k):
+            q.append(nums[i])
 
-        # q.append(i, nums[stack.getMax])
+            while maxQ and nums[maxQ[-1]] < nums[i]: # Remove smaller vals 
+                maxQ.pop()
+            maxQ.append(i)
 
-        maxWindow = [maxN]
+        maxWindow = [nums[maxQ[0]]]
 
-        # i is left ptr, i+k is. right
+        # We simply maintain two queues, the first is the current window (q)
+        # The second is a monotonically decreasing q (maxQ) keeping the index
+        # So the index of the max is left, second max is idx 1, etc...
+        # Each new max replaces every smaller val in the maxQ since a new max always comes after
+        # So its always in the new range. 
         for i in range(k, len(nums)):
-            rem = q.pop(0) # Front element has been replaced
-            q.append((i, nums[i]))
-            # print(q)
+            q.pop(0) # Front element has been replaced
+            q.append(nums[i])
 
-            if rem[1] == maxN[1]: # No longer in bounds we need to search for anew max or we just removed our max
-                maxN = max(q, key=lambda x: x[1])
-            else:
-                if maxN[1] <= q[-1][1]: # Replace with our new max or the same later max
-                    maxN = q[-1]
-                
-            maxWindow.append(maxN)
+            # Check if curr max is inbounds still
+            while maxQ and maxQ[0] <= i-k: # maxQ idx < i-k = OOB
+                maxQ.pop(0)
 
-        return [t[1] for t in maxWindow]
+            # Check for a new max, replace every smaller val with this. It dominates them
+            while maxQ and nums[maxQ[-1]] < nums[i]:
+                maxQ.pop()
+        
+            maxQ.append(i) 
+            maxWindow.append(nums[maxQ[0]])
+
+        return maxWindow
 
 
 def main():
@@ -37,6 +41,7 @@ def main():
     print(s.solve([1,3,-1,-3,5,3,6,7], 3), [3,3,5,5,6,7])
     print(s.solve([1], 1), [1])
     print(s.solve([-7, -8, -7, 5, 7, 1, 6, 0], 4), [5, 7, 7, 7, 7])
+    print(s.solve([1,-1], 1), [1,-1])
 
 if __name__ == '__main__':
     main()

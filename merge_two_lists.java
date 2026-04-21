@@ -13,9 +13,32 @@ public class ListNode {
 
 class Solution {
     public ListNode solve(ListNode list1, ListNode list2) {
-        
-        
-        return new ListNode();
+        ListNode node2;
+        ListNode head;
+
+        // Our head always starts at the smaller value with node2 being the other list
+        if (list1.val <= list2.val) {
+            head = list1;
+            node2 = list2;
+        } else {
+            head = list2;
+            node2 = list1;
+        }
+
+        ListNode node = head;
+
+        while (node2 != null) {
+            if (node2.val < node.val) { // Merge in its smaller
+                ListNode tmp = node;
+                node = node2;
+                node.next = tmp;
+                node2 = node2.next;
+            } else { 
+                node = node.next;
+            }
+        }
+
+        return head;
     }
 }
 

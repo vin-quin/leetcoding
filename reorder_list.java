@@ -14,37 +14,38 @@ public class ListNode {
 
 class Solution {
     public ListNode solve(ListNode head) {
-        if (head.next == null) {
-            return;
-        }
-        Stack<ListNode> stk = new Stack();
+        ListNode slow = head;
+        ListNode fast =  head.next;
 
-        ListNode curr = head;
-        while (curr != null) {
-            stk.push(curr);
-            curr = curr.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
 
-        // We only need the top half of the stack, incl. midpoint
-        // We simply iterate through and pop every other node til we hit that midpoint and its done
+        // Reverse from slow to end
+        ListNode prev = null;
+        ListNode next = slow.next;
+        slow.next = null; // This wil be tail
 
-        int steps = Math.ceilDiv(stk.size(), 2);
-        System.out.println(steps);
-
-        curr = head;
-        for (int i = 0; i < steps; i++) {
-            ListNode tmp = curr.next;
-            curr.next = stk.pop();
-            curr.next.next = tmp;
-            curr = curr.next.next;
+        while (next != null) {
+            ListNode tmp = next.next;
+            next.next = prev;
+            prev = next;
+            next = tmp;
         }
 
-        curr.next = null; // Set tail
-        
-        return;
+        // Merge
+        ListNode node = head;
+
+        while (prev != null) {
+            ListNode tmp = node.next, tmp2 = prev.next;
+            node.next = prev;
+            prev.next = tmp;
+            node = tmp;
+            prev = tmp2;
+        }
     }
 }
-
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();

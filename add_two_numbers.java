@@ -52,7 +52,6 @@ class Solution {
         // We always start with a leading 0 at the head so just return next for the real result
         return resHead.next;
     }
-    }
 }
 
 public class Main {

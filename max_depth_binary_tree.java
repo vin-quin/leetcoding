@@ -17,6 +17,23 @@
 
 class Solution {
     public int maxDepth(TreeNode root) {
+        return dfs(root, 0);
+    }
+
+    public int dfs(TreeNode root, int d) {
+        if (root == null) {
+            return d;
+        }
         
+        int l=0,r=0;
+        if (root.left != null) {
+            l = dfs(root.left, d+1);
+        }
+
+        if (root.right != null) {
+            r = dfs(root.right, +1);
+        }
+
+        return l > r ? l+1 : r+1;
     }
 }

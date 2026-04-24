@@ -9,25 +9,23 @@
  * }
  */
 class Solution {
-    private ListNode head = new ListNode(); // Dummy head must be removed on return
+    private ListNode head = new ListNode(Integer.MIN_VALUE); // Dummy head must be removed on return
     private ListNode tail = this.head;
 
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists.length == 0) {
-            return new ListNode();
+            return null;
         }
 
         int emptyLists = 0;
-        ListNode curr; 
-
+        ListNode curr;
 
         // Build the merged array by taking the curr of eaach list 1 at a time
         // If curr is null that list is done and skip it
         // Guarantees that the of all curr nodes is sorted
-        // This process requires O(N) iteration thru lists and O(M) per N where M
-        // Is the size of the largest list given. This is because we go back up to M nodes
-        // To find where it actually belongs in the sorted list on every addition
-        while (emptyLists < lists.length) {
+        // This process requires O(N) iteration thru lists and O(K) which is the length of the current mergeed array
+        // As any time we are inserint in the middle we search up to K nodes to get insertion point
+        while (emptyLists != lists.length) {
             emptyLists = 0;
 
             for (int i = 0; i < lists.length; i++) {
@@ -52,7 +50,7 @@ class Solution {
                 }
                 // Else it's in the middle so walk back from the tail until curr.val <= next and insert
                 else {
-
+                    insert(curr);
                 }
             }
         }
@@ -60,8 +58,15 @@ class Solution {
         return this.head.next;
     }
 
-    // Walk back from tail until we find a val we are greater than or equal to, insert there
+    // Walk forward until we find a val we are less than or equal to, insert there
     public void insert(ListNode n) {
-        ListNode curr = this.tail;
+        ListNode curr = this.head;
+
+        while (curr.next != null && curr.next.val <= n.val) {
+            curr = curr.next;
+        }
+
+        n.next = curr.next;
+        curr.next = n;
     }
 }

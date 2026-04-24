@@ -24,15 +24,9 @@ class Solution {
         if (root == null) {
             return d;
         }
-        
-        int l=0,r=0;
-        if (root.left != null) {
-            l = dfs(root.left, d+1);
-        }
 
-        if (root.right != null) {
-            r = dfs(root.right, +1);
-        }
+        int l = dfs(root.left, d+1);
+        int r = dfs(root.right, d+1);
 
         return l > r ? l+1 : r+1;
     }

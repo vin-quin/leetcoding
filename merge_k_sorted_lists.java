@@ -58,6 +58,53 @@ class Solution {
         return this.head.next;
     }
 
+    public ListNode mergeKListsOptimal(ListNode[] lists) {
+        if (lists.length == 0) {
+            return null;
+        }
+
+        // Merge in pairs until only one list remains in lists then we are done
+        this.head = lists[0];
+
+        for (int i = 1; i < lists.length; i++) {
+            this.head = mergeTwoLists(this.head, lists[i]);
+        }   
+
+        return this.head;
+    }
+
+    public ListNode mergeTwoLists(ListNode a, ListNode b) {
+        if (a == null) {
+            return b;
+        }
+
+        if (b == null) {
+            return a;
+        }
+
+        ListNode curr1=a, curr2=b;
+
+        if (a.val > b.val) {
+            curr1 = b;
+            curr2 = a;
+        }
+        
+        ListNode head = curr1;
+
+        while (curr2 != null) { // Merge it in
+            if (curr1.next == null || curr2.val <= curr1.next.val) { // We are bigger than null so merge
+                ListNode tmp = curr1.next;
+                curr1.next = curr2;
+                curr2 = curr2.next;
+                curr1.next.next = tmp;
+            } else {
+                curr1 = curr1.next;
+            }
+        }
+
+        return head;
+    }
+
     // Walk forward until we find a val we are less than or equal to, insert there
     public void insert(ListNode n) {
         ListNode curr = this.head;

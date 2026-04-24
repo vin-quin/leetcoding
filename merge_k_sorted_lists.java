@@ -8,69 +8,60 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-import java.util.HashMap;
-
 class Solution {
-    private HashMap<Integer,ListNode> kv = new HashMap<>();
-    private ListNode head, tail;
+    private ListNode head = new ListNode(); // Dummy head must be removed on return
+    private ListNode tail = this.head;
 
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists.length == 0) {
             return new ListNode();
         }
 
-        // We will merge into this list after we initialize this current lists kv
-        this.head = lists[0]; // Our sorted list starts as our first lists arbitrarily
-        ListNode curr = this.head;
-        while (curr != null)  {
-            this.kv.put(curr.val, curr);
-            
-            if (curr.next == null) {
-                this.tail = curr;
-            }
+        int emptyLists = 0;
+        ListNode curr; 
 
-            curr = curr.next;
-        } 
-        
-        System.out.println(this.kv);
 
-        for (int i = 1; i < lists.length; i++) { // Skip first list we started at
-            curr = lists[i];
-            System.out.println(i);
+        // Build the merged array by taking the curr of eaach list 1 at a time
+        // If curr is null that list is done and skip it
+        // Guarantees that the of all curr nodes is sorted
+        // This process requires O(N) iteration thru lists and O(M) per N where M
+        // Is the size of the largest list given. This is because we go back up to M nodes
+        // To find where it actually belongs in the sorted list on every addition
+        while (emptyLists < lists.length) {
+            emptyLists = 0;
 
-            while (curr != null) {
-                // If we've seen this number in the kv then we need to insert it somewhere inside and do a swap
-                if (this.kv.containsKey(curr.val)) {
-                    System.out.println("Contains");
-                    this.insert(new ListNode(curr.val));
-                } else if (curr.val < this.head.val) { // Else if it is less than head it must be new head
-                    System.out.println("New head");
-                    ListNode tmp = new ListNode(curr.val);
-                    tmp.next = this.head;
-                    this.head = tmp;
-                    this.kv.put(this.head.val, this.head);
-                } else { // Else it must be new tail
-                    System.out.println("New tail");
-                    ListNode tmp = new ListNode(curr.val);
-                    this.tail.next = tmp;
-                    this.tail = tmp;
-                    this.kv.put(this.tail.val, this.tail);
+            for (int i = 0; i < lists.length; i++) {
+                curr = lists[i];
+                if (curr == null) { // This list is done already
+                    emptyLists += 1;
+                    continue;
                 }
 
-                curr = curr.next;
+                lists[i] = curr.next; // Set progress for next iter
+
+                // If curr.val >= this.tail we can just append
+                if (curr.val >= this.tail.val) {
+                    curr.next = null;
+                    this.tail.next = curr;
+                    this.tail = curr;
+                }
+                // Else if curr.val <= this.head we prepend
+                else if (curr.val <= this.head.val) {
+                    curr.next = this.head;
+                    this.head = curr;
+                }
+                // Else it's in the middle so walk back from the tail until curr.val <= next and insert
+                else {
+
+                }
             }
         }
-        
-        System.out.println(this.kv);
-        return this.head;
+
+        return this.head.next;
     }
 
+    // Walk back from tail until we find a val we are greater than or equal to, insert there
     public void insert(ListNode n) {
-        ListNode insertAt = this.kv.get(n.val);
-
-        n.next = insertAt.next;
-        insertAt.next = n;   
-
-        this.kv.put(n.val, n);     
+        ListNode curr = this.tail;
     }
 }

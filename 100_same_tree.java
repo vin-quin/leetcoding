@@ -26,20 +26,10 @@ class Solution {
             return true;
         }
 
-        if ((a == null && b != null)
-                || (a != null && b == null)
-                || (a.val != b.val)) {
+        if ((a == null && b != null) || a != null && b == null || (a.val != b.val)) {
             return false;
         }
 
-        if (!same(a.left, b.left)) {
-            return false;
-        }
-
-        if (!same(a.right, b.right)) {
-            return false;
-        }
-
-        return true;
+        return (same(a.left, b.left) == true && same(a.right, b.right) == true);
     }
 }

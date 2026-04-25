@@ -1,4 +1,5 @@
 // https://leetcode.com/problems/same-tree/description/
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -15,7 +16,30 @@
  * }
  */
 class Solution {
+
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        
+        return same(p, q);
+    }
+
+    public boolean same(TreeNode a, TreeNode b) {
+        if (a == null && b == null) {
+            return true;
+        }
+
+        if ((a == null && b != null)
+                || (a != null && b == null)
+                || (a.val != b.val)) {
+            return false;
+        }
+
+        if (!same(a.left, b.left)) {
+            return false;
+        }
+
+        if (!same(a.right, b.right)) {
+            return false;
+        }
+
+        return true;
     }
 }

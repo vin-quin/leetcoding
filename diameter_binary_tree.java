@@ -16,6 +16,20 @@
  */
 class Solution {
     public int diameterOfBinaryTree(TreeNode root) {
-        
+        int[] r = new int[1];
+        dfs(root, r);
+        return r[0];
+    }
+
+    public int dfs(TreeNode root, int[] h) {
+        if (root == null) {
+            return 0;
+        }
+
+        int l = dfs(root.left, h);
+        int r = dfs(root.right, h);
+        h[0] = Math.max(h[0], l+r);
+
+        return 1+Math.max(l, r);
     }
 }

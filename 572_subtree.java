@@ -16,30 +16,25 @@
  * }
  */
 class Solution {
-    private boolean found = false;
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        subtree(root, subRoot);
-        return this.found;
+        return subtree(root, subRoot);
     }
 
     public boolean subtree(TreeNode root, TreeNode subtree) {
-        if ((root == null && subtree != null) || root != null && subtree == null) {
+        if (root == null) {
             return false;
         }
 
-        if (root == null && subtree == null) {
+        if (subtree == null) {
             return true;
         }
 
         // Potential subtree, explore
-        if (root.val == subtree.val) {
-            this.found = same(root, subtree);
+        if (same(root, subtree)) {
+            return true;
         }
 
-        subtree(root.left, subtree);
-        subtree(root.right, subtree);
-
-        return false;
+        return subtree(root.left, subtree) || subtree(root.right, subtree);
     }
 
     public boolean same(TreeNode a, TreeNode b) {

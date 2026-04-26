@@ -1,53 +1,56 @@
 // https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+
 /**
  * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
  */
+import java.util.Stack;
+
+public class TreeNode {
+
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int x) {
+        val = x;
+    }
+}
+
 
 class Solution {
+
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) {
-            return null;
+        Stack<TreeNode> s1 = new Stack<>();
+        dfs(root, p, s1);
+        Stack<TreeNode> s2 = new Stack<>();
+        dfs(root, q, s2);
+
+        s1.retainAll(s2);
+
+        for (TreeNode elem : s1) {
+            System.out.println(elem.val);
         }
 
-        if (root == p) {
-            return root;
-        }
-
-        if (root == q) {
-            return root;
-        }
-
-        TreeNode l = lowestCommonAncestor(root.left, p, q);
-        TreeNode r = lowestCommonAncestor(root.right, p, q);
-
-        if (l != null && r != null) {
-            return root;
-        }
-
-        return null;
+        return s1.firstElement();
     }
 
-    public TreeNode dfs(TreeNode root, TreeNode t) {
+    public void dfs(TreeNode root, TreeNode t, Stack<TreeNode> history) {
         if (root == null) {
-            return null;
+            history.pop();
+            return;
+        }
+
+        history.push(root);
+        if (root == t) {
+            return;
         }
 
         if (root.left != null) {
-        
+            dfs(root.left, t, history);
         }
-        
-        TreeNode n1 = dfs(root.left, t);
 
         if (root.right != null) {
-            
+            dfs(root.right, t, history);
         }
-
-        return a;
     }
 }

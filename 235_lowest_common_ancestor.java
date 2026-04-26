@@ -11,6 +11,43 @@
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root == p) {
+            return root;
+        }
+
+        if (root == q) {
+            return root;
+        }
+
+        TreeNode l = lowestCommonAncestor(root.left, p, q);
+        TreeNode r = lowestCommonAncestor(root.right, p, q);
+
+        if (l != null && r != null) {
+            return root;
+        }
+
+        return null;
+    }
+
+    public TreeNode dfs(TreeNode root, TreeNode t) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.left != null) {
         
+        }
+        
+        TreeNode n1 = dfs(root.left, t);
+
+        if (root.right != null) {
+            
+        }
+
+        return a;
     }
 }

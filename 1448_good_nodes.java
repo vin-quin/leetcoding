@@ -14,7 +14,28 @@ public class TreeNode {
 }
 
 class Solution {
+    private int good = 0;
+
     public int goodNodes(TreeNode root) {
-               
+        // Good IF Root to node contains no value greater than node (including root)
+
+        dfs(root, Integer.MIN_VALUE);
+
+        return this.good;
+    }
+
+    // DFS with a max lets us check at each node
+    public void dfs(TreeNode root, int max) {
+        if (root == null) {
+            return;
+        }
+
+        if (max <= root.val) { 
+            this.good += 1;
+            max = root.val;
+        } 
+
+        dfs(root.left, max);
+        dfs(root.right, max);
     }
 }

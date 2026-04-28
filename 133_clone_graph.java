@@ -24,9 +24,7 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-
-
-        return walk(node);
+        return walk != null ? walk(node) : null;
     }
 
     public Node walk(Node original) {

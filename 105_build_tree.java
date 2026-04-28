@@ -24,6 +24,13 @@ public class TreeNode {
 
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
+        TreeNode root = new TreeNode(preorder[0]);
+
+        return root;
+    }
+
+    public void build() {
         
+
     }
 }

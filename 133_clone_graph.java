@@ -4,7 +4,7 @@ https://leetcode.com/problems/clone-graph/
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 class Node {
     public int val;
     public List<Node> neighbors;
@@ -24,41 +24,29 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-        return walk != null ? walk(node) : null;
+        HashMap<Node,Node> seen = new HashMap<Node,Node>();
+        dfs(node, seen);
+        return seen.get(node); // Get copied head
     }
 
-    public Node walk(Node original) {
-        Node copy = new Node(original.val);
-        ArrayList<Node> q = new ArrayList<Node>(original);
-        ArrayList<Node> copyQ = new ArrayList<Node>(copy);
-        HashSet<Integer> seen = new HashSet<>();
 
-        while (!q.isEmpty()) {
-            Node o = q.removeFirst();
-            Node c = copyQ.removeFirst();
-            
-            if (seen.contains(o.val)) {
-                continue;
-            }
+    public Node dfs(Node node, HashMap<Node,Node> seen) {
+        if (node == null) {
+            return null;
+        }
+        
+        if (seen.containsKey(node)) {
+            return seen.get(node);
+        }
 
-            seen.add(o.val);
+        Node copy = new Node(node.val);
+        seen.put(node, copy);
 
-            for (Node neighbor : o.neighbors) {
-                Node n = new Node(neighbor.val);
-                c.neighbors.add(n);
-                q.add(neighbor);
-                copyQ.add(n);
-            }
+        for (Node n : node.neighbors) {
+            Node c = dfs(n, seen);
+            copy.neighbors.add(c);
         }
 
         return copy;
     }
-
-    // public void copy(Node original, Node copy) {
-    //     copy = new Node(original.val);
-
-    //     for (Node n: original.neighbors) {
-    //         copy(n, )
-    //     }
-    // }
 }

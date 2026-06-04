@@ -22,8 +22,11 @@ class Twitter:
         pool.extend(self.tweets[userId][:10])
         pool.sort()
 
-        return pool[-10:]
+        feed = pool[-10:]
+        feed.reverse()
 
+        return feed
+    
     def follow(self, followerId: int, followeeId: int) -> None:
         if followerId in self.followMap:
             self.followMap[followerId].append(followeeId)

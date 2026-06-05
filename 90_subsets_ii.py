@@ -5,8 +5,7 @@ class Solution:
         res = []
         nums.sort()
         
-        for i in range(len(nums)):
-            self.backtrack(nums, [], res, i)
+        self.backtrack(nums, [], res, 0)
             
         return res
 
@@ -15,15 +14,20 @@ class Solution:
             # res.append()
             return 
         
-        if pwr not in res:
-            res.append(pwr.copy())
-        pwr.append(nums[idx])
-        
-        if pwr not in res:
-            res.append(pwr.copy())
+        for i in range(0, len(nums)):
+            if i == idx:
+                continue 
+            
+            if pwr not in res:
+                res.append(pwr.copy())
 
-        self.backtrack(nums, pwr, res, idx+1)
-        pwr.pop()
+            pwr.append(nums[i])
+            
+            if pwr not in res:
+                res.append(pwr.copy())
+
+            self.backtrack(nums, pwr, res, i+1)
+            pwr.pop()
 
 
 def main():

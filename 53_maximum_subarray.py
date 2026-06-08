@@ -11,8 +11,8 @@ class Solution:
             else: #reset from here and take this max
                 total=num
 
-            best = max(best, total, num)
-            
+            best = max(best, total)
+
         return best
 
 def main():

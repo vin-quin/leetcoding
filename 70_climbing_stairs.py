@@ -1,8 +1,13 @@
 # https://leetcode.com/problems/climbing-stairs/description/
 # 
 class Solution:
-    def solve(self, n: int) -> int:
-        return rec(n)
+    def solve(self, n: int) -> int:       
+        ways = [1,2]
+
+        for i in range(2, n):
+            ways.append(ways[i-2] + ways[i-1])
+        
+        return ways[-1]
         
 def rec(n: int) -> int:
     if n <= 0:

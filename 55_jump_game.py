@@ -2,8 +2,24 @@
 # 
 class Solution:
     def solve(self, nums: list[int]) -> bool:
-        ...
+        # Just take the biggest jump possible nad rollback if we cant
+        return jump(nums, 0)
 
+def jump(nums: list[int], idx: int) -> bool:
+    if idx >= len(nums): #overshot
+        return False
+    
+    if idx == len(nums)-1: # We hit the end
+        return True 
+    
+    for i in range(nums[idx], 0, -1): #. try progessively smaller jumps
+        r = jump(nums, idx+i)
+        
+        if r: # quit early on success
+            return True
+    
+    return False
+        
 
 def main():
     s = Solution()

@@ -4,11 +4,9 @@ from copy import deepcopy
 
 class Solution:
     def exist(self, board: list[list[str]], word: str) -> bool:
-        b = deepcopy(board)
-
         for row in range(len(board)):
             for col in range(len(board[0])):
-                if self.checkNeighbor(b, [row,col], word, 0):
+                if self.checkNeighbor(deepcopy(board), [row,col], word, 0):
                     return True
 
         return False
@@ -33,6 +31,8 @@ class Solution:
             or self.checkNeighbor(board, [r + 1, c], word, idx + 1)
         )
 
-
+["A","A","A"],
+["B","C","D"]
 s = Solution()
-print(s.exist([["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED"))
+# print(s.exist([["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED"))
+print(s.exist([["A","A","A"],["B","C","D"]], "AAB"))

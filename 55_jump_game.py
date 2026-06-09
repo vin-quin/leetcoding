@@ -3,7 +3,10 @@
 class Solution:
     def solve(self, nums: list[int]) -> bool:
         # Just take the biggest jump possible nad rollback if we cant
-        return jump(nums, 0)
+        pos = 0
+        for i in range(len(nums)):
+
+        return True
 
 def jump(nums: list[int], idx: int) -> bool:
     if idx >= len(nums): #overshot

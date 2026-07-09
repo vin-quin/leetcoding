@@ -2,6 +2,7 @@
 class Solution:
     def solve(self, nums: list[int]) -> int:
         nums.sort()
+        print(nums)
         posIdx = -1 # first nonnegative in list
 
         for i in range(len(nums)):
@@ -16,14 +17,16 @@ class Solution:
 
         score = 1
         for n in nums:
-            score *= n
+            if n != 0:
+                score *= n
 
         return score
 
 def main():
     s = Solution()
-    print(s.solve([3,-1,-5,2,5,-9]))
-    print(s.solve([-4,-5,-4]))
+    # print(s.solve([3,-1,-5,2,5,-9]))
+    # print(s.solve([-4,-5,-4]))
+    print(s.solve([8,6,0,5,-4,-8,-4,9,-1,6,-4,8,-5]))
 
 if __name__ == '__main__':
     main()

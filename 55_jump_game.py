@@ -4,7 +4,10 @@ class Solution:
     def solve(self, nums: list[int]) -> bool:
         # Just take the biggest jump possible nad rollback if we cant
         pos = 0
-        for i in range(len(nums)):
+        
+        while pos != len(nums)-1:
+            for i in range(nums[pos], 0, -1):
+                
 
         return True
 

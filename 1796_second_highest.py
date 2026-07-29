@@ -11,7 +11,7 @@ class Solution:
                 nums[0], nums[1] = int(c), nums[0]
             elif int(c) > nums[1] and int(c) != nums[0]:
                 nums[1] = int(c)
-        
+
         return nums[1]
 
 def main():
